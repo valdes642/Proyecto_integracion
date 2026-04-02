@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Vista;
 
@@ -8,10 +8,10 @@ package Vista;
  *
  * @author tomas
  */
-public class ControlesCamiones extends javax.swing.JPanel {
+public class ControlesCamiones extends javax.swing.JFrame {
 
     /**
-     * Creates new form ControlesCamiones
+     * Creates new form ControlesCamione
      */
     public ControlesCamiones() {
         initComponents();
@@ -26,35 +26,28 @@ public class ControlesCamiones extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        textNumeraciónCamion = new javax.swing.JLabel();
-        textMatricula = new javax.swing.JLabel();
-        textMarca = new javax.swing.JLabel();
         textModelo = new javax.swing.JLabel();
         textNombreChofer = new javax.swing.JLabel();
         textKM = new javax.swing.JLabel();
         textMantenimiento = new javax.swing.JLabel();
         lblNumeracion = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         lblMatricula = new javax.swing.JTextField();
         lblMarca = new javax.swing.JTextField();
-        lblModelo = new javax.swing.JTextField();
-        lblNombreChofer = new javax.swing.JTextField();
-        lblKM = new javax.swing.JTextField();
-        lblMantenimiento = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        lblModelo = new javax.swing.JTextField();
         btnEliminar = new javax.swing.JButton();
+        textNumeraciónCamion = new javax.swing.JLabel();
+        lblNombreChofer = new javax.swing.JTextField();
         btnAgregar = new javax.swing.JButton();
+        textMatricula = new javax.swing.JLabel();
+        lblKM = new javax.swing.JTextField();
         btnModificar = new javax.swing.JButton();
+        textMarca = new javax.swing.JLabel();
+        lblMantenimiento = new javax.swing.JTextField();
 
-        textNumeraciónCamion.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
-        textNumeraciónCamion.setText("Numeración camion: ");
-
-        textMatricula.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
-        textMatricula.setText("Matricula: ");
-
-        textMarca.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
-        textMarca.setText("Marca:");
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         textModelo.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
         textModelo.setText("Modelo: ");
@@ -71,26 +64,14 @@ public class ControlesCamiones extends javax.swing.JPanel {
         lblNumeracion.setForeground(new java.awt.Color(204, 204, 204));
         lblNumeracion.setText("Numeracion");
 
+        jLabel2.setFont(new java.awt.Font("Stencil", 2, 24)); // NOI18N
+        jLabel2.setText("Controlador DE camiones");
+
         lblMatricula.setForeground(new java.awt.Color(204, 204, 204));
         lblMatricula.setText("Matricula");
 
         lblMarca.setForeground(new java.awt.Color(204, 204, 204));
         lblMarca.setText("Marca");
-
-        lblModelo.setForeground(new java.awt.Color(204, 204, 204));
-        lblModelo.setText("Modelo");
-
-        lblNombreChofer.setForeground(new java.awt.Color(204, 204, 204));
-        lblNombreChofer.setText("Nombre del Chofer");
-
-        lblKM.setForeground(new java.awt.Color(204, 204, 204));
-        lblKM.setText("Kilometros");
-
-        lblMantenimiento.setForeground(new java.awt.Color(204, 204, 204));
-        lblMantenimiento.setText("Mantenimiento");
-
-        jLabel2.setFont(new java.awt.Font("Stencil", 2, 24)); // NOI18N
-        jLabel2.setText("Controlador DE camiones");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -107,6 +88,9 @@ public class ControlesCamiones extends javax.swing.JPanel {
         jTable1.setRequestFocusEnabled(false);
         jScrollPane1.setViewportView(jTable1);
 
+        lblModelo.setForeground(new java.awt.Color(204, 204, 204));
+        lblModelo.setText("Modelo");
+
         btnEliminar.setBackground(new java.awt.Color(255, 0, 51));
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
@@ -116,6 +100,12 @@ public class ControlesCamiones extends javax.swing.JPanel {
                 btnEliminarActionPerformed(evt);
             }
         });
+
+        textNumeraciónCamion.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
+        textNumeraciónCamion.setText("Numeración camion: ");
+
+        lblNombreChofer.setForeground(new java.awt.Color(204, 204, 204));
+        lblNombreChofer.setText("Nombre del Chofer");
 
         btnAgregar.setBackground(new java.awt.Color(102, 255, 102));
         btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -127,6 +117,12 @@ public class ControlesCamiones extends javax.swing.JPanel {
             }
         });
 
+        textMatricula.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
+        textMatricula.setText("Matricula: ");
+
+        lblKM.setForeground(new java.awt.Color(204, 204, 204));
+        lblKM.setText("Kilometros");
+
         btnModificar.setBackground(new java.awt.Color(51, 153, 255));
         btnModificar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnModificar.setForeground(new java.awt.Color(255, 255, 255));
@@ -137,8 +133,14 @@ public class ControlesCamiones extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        textMarca.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
+        textMarca.setText("Marca:");
+
+        lblMantenimiento.setForeground(new java.awt.Color(204, 204, 204));
+        lblMantenimiento.setText("Mantenimiento");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -176,7 +178,7 @@ public class ControlesCamiones extends javax.swing.JPanel {
                                 .addComponent(btnAgregar)))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,8 +221,10 @@ public class ControlesCamiones extends javax.swing.JPanel {
                             .addComponent(btnAgregar)
                             .addComponent(btnModificar)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -235,6 +239,41 @@ public class ControlesCamiones extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnModificarActionPerformed
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ControlesCamiones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ControlesCamiones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ControlesCamiones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ControlesCamiones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ControlesCamiones().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

@@ -1,4 +1,4 @@
-package Camion;
+package Modelo;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -9,25 +9,28 @@ package Camion;
  *
  * @author Victor Vergara
  */
-public class Camion {
-        private int idCamion;
+public class Camion{
+    private int idCamion;
     private String marca;
     private String modelo;
     private int anio;
     private int kilometraje;
-    
     private String rutConductorAsignado; 
-
+    private boolean mantenimiento;
+    private String patente; // Añadido para coincidir con tu SQL
+    
     public Camion() {
     }
 
-    public Camion(int idCamion, String marca, String modelo, int anio, int kilometraje, String rutConductorAsignado) {
+    public Camion(int idCamion, String marca, String modelo, int anio, int kilometraje, String rutConductorAsignado, boolean mantenimiento, String patente) {
         this.idCamion = idCamion;
         this.marca = marca;
         this.modelo = modelo;
         this.anio = anio;
         this.kilometraje = kilometraje;
         this.rutConductorAsignado = rutConductorAsignado;
+        this.mantenimiento = mantenimiento;
+        this.patente = patente;
     }
 
     public int getIdCamion() {
@@ -77,5 +80,27 @@ public class Camion {
     public void setRutConductorAsignado(String rutConductorAsignado) {
         this.rutConductorAsignado = rutConductorAsignado;
     }
+
+    public boolean isMantenimiento() {
+        return mantenimiento;
+    }
+
+    public void setMantenimiento(boolean mantenimiento) {
+        this.mantenimiento = mantenimiento;
+    }
+
+    public String getPatente() {
+        return patente;
+    }
+
+    public void setPatente(String patente) {
+        this.patente = patente;
+    }
+
+    @Override
+    public String toString() {
+        return "Camion{" + "idCamion=" + idCamion + ", marca=" + marca + ", modelo=" + modelo + ", anio=" + anio + ", kilometraje=" + kilometraje + ", rutConductorAsignado=" + rutConductorAsignado + ", mantenimiento=" + mantenimiento + ", patente=" + patente + '}';
+    }
+
 }
 
