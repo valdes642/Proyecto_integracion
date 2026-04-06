@@ -44,9 +44,11 @@ public class CamionDAO {
             ps.setString(3, c.getModelo());
             ps.setInt(4, c.getAnio());
             ps.setInt(5, c.getKilometraje());
-            ps.setInt(6, 1); // ID conductor por defecto
+            // OJO: Aquí deberías usar c.getRutConductorAsignado() si es un ID válido
+            ps.setString(6, c.getRutConductorAsignado()); 
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
+            System.err.println("Error al insertar: " + e.getMessage());
             return false;
         }
     }
@@ -63,6 +65,7 @@ public class CamionDAO {
             ps.setInt(6, c.getIdCamion());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
+            System.err.println("Error al modificar: " + e.getMessage());
             return false;
         }
     }
@@ -74,7 +77,33 @@ public class CamionDAO {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
+            System.err.println("Error al eliminar: " + e.getMessage());
             return false;
         }
+    }
+
+    public List<Camion> buscar(String campo, String valor) {
+        List<Camion> lista = new ArrayList<>();
+        String sql = "SELECT * FROM camion WHERE " + campo + " LIKE ?";
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, "%" + valor + "%");
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Camion c = new Camion();
+                    c.setIdCamion(rs.getInt("id_camion"));
+                    c.setPatente(rs.getString("patente"));
+                    c.setMarca(rs.getString("marca"));
+                    c.setModelo(rs.getString("modelo"));
+                    c.setAnio(rs.getInt("anio"));
+                    c.setKilometraje(rs.getInt("kilometraje"));
+                    c.setRutConductorAsignado(rs.getString("id_conductor"));
+                    lista.add(c);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al buscar: " + e.getMessage());
+        }
+        return lista;
     }
 }

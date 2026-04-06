@@ -4,17 +4,66 @@
  */
 package Vista;
 
+import Controles.CamionControlador;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+import java.awt.Color;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 /**
  *
  * @author tomas
  */
 public class ControlesCamiones extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ControlesCamione
-     */
+    // 1. Instanciamos el controlador
+    CamionControlador controlador = new CamionControlador();
+
     public ControlesCamiones() {
         initComponents();
+        // 2. Cargamos los datos en la tabla
+        actualizarTabla();
+        // 3. Activamos el efecto para que se borren al escribir
+        configurarPlaceholders();
+    }
+
+    // --- MÉTODO MAGICO PARA LOS EDIT TEXT ---
+    private void configurarPlaceholders() {
+        // Metemos todos tus campos en una lista para no repetir codigo
+        javax.swing.JTextField[] campos = {
+            lblNumeracion, lblMatricula, lblMarca, lblModelo, 
+            lblNombreChofer, lblKM, lblMantenimiento
+        };
+
+        for (javax.swing.JTextField campo : campos) {
+            // Guardamos el nombre original que pusiste en NetBeans como "guia"
+            String textoGuia = campo.getText();
+
+            campo.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    // Si el usuario hace clic y está el texto de guia, lo borramos
+                    if (campo.getText().equals(textoGuia)) {
+                        campo.setText("");
+                        campo.setForeground(Color.BLACK); // Color de letra normal al escribir
+                    }
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    // Si el usuario se sale y no escribió nada, ponemos la guia de nuevo
+                    if (campo.getText().isEmpty()) {
+                        campo.setForeground(new Color(204, 204, 204)); // Color gris
+                        campo.setText(textoGuia);
+                    }
+                }
+            });
+        }
+    }
+
+    private void actualizarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        controlador.cargarTabla(modelo);
     }
 
     /**
@@ -46,6 +95,8 @@ public class ControlesCamiones extends javax.swing.JFrame {
         btnModificar = new javax.swing.JButton();
         textMarca = new javax.swing.JLabel();
         lblMantenimiento = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
+        btnReflescar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,6 +190,24 @@ public class ControlesCamiones extends javax.swing.JFrame {
         lblMantenimiento.setForeground(new java.awt.Color(204, 204, 204));
         lblMantenimiento.setText("Mantenimiento");
 
+        btnBuscar.setBackground(new java.awt.Color(153, 153, 153));
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        btnReflescar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnReflescar.setText("Reflescar ");
+        btnReflescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReflescarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -146,12 +215,9 @@ public class ControlesCamiones extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(214, 214, 214)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(textMantenimiento)
                                     .addComponent(textKM)
@@ -160,33 +226,42 @@ public class ControlesCamiones extends javax.swing.JFrame {
                                     .addComponent(textMatricula)
                                     .addComponent(textNumeraciónCamion)
                                     .addComponent(textModelo))
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblNumeracion, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblNombreChofer, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblKM, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(lblNumeracion)
+                                    .addComponent(lblMatricula)
+                                    .addComponent(lblMarca)
+                                    .addComponent(lblModelo)
+                                    .addComponent(lblNombreChofer)
+                                    .addComponent(lblKM)
+                                    .addComponent(lblMantenimiento, javax.swing.GroupLayout.Alignment.TRAILING)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(45, 45, 45)
+                                .addComponent(btnBuscar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnModificar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnEliminar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnAgregar)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(214, 214, 214)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnReflescar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(btnReflescar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(textNumeraciónCamion)
@@ -219,8 +294,9 @@ public class ControlesCamiones extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnEliminar)
                             .addComponent(btnAgregar)
-                            .addComponent(btnModificar)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                            .addComponent(btnModificar)
+                            .addComponent(btnBuscar)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -228,26 +304,95 @@ public class ControlesCamiones extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+    int filaSeleccionada = jTable1.getSelectedRow();
+    
+    if (filaSeleccionada >= 0) {
+        // Obtenemos el ID de la primera columna (columna 0)
+        String id = jTable1.getValueAt(filaSeleccionada, 0).toString();
+        
+        int confirmar = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres eliminar el camión ID: " + id + "?");
+        
+        if (confirmar == JOptionPane.YES_OPTION) {
+            if (controlador.borrar(id)) {
+                JOptionPane.showMessageDialog(this, "Registro eliminado de la base de datos");
+                actualizarTabla();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al eliminar.");
+            }
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Primero selecciona un camión de la tabla.");
+    }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
+    // Capturar datos de la vista
+    String patente = lblMatricula.getText();
+    String marca = lblMarca.getText();
+    String modelo = lblModelo.getText();
+    String anio = "2024"; // Puedes cambiar esto por un campo de texto si lo tienes
+    String km = lblKM.getText();
+
+    // El controlador llama al DAO internamente
+    if (controlador.registrar(patente, marca, modelo, anio, km)) {
+        JOptionPane.showMessageDialog(this, "¡Camión guardado en la base de datos!");
+        actualizarTabla(); // Refresca la tabla automáticamente
+    } else {
+        JOptionPane.showMessageDialog(this, "Error al guardar. Revisa la conexión.");
+    }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        // TODO add your handling code here:
+    String id = lblNumeracion.getText(); 
+    String patente = lblMatricula.getText();
+    String marca = lblMarca.getText();
+    String modelo = lblModelo.getText();
+    String anio = "2024"; 
+    String km = lblKM.getText();
+
+    if (controlador.editar(id, patente, marca, modelo, anio, km)) {
+        JOptionPane.showMessageDialog(this, "Datos actualizados correctamente");
+        actualizarTabla();
+    } else {
+        JOptionPane.showMessageDialog(this, "No se pudo modificar el registro.");
+    }
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+    // 1. Opciones de búsqueda
+    String[] opciones = {"patente", "marca", "modelo", "id_conductor"};
+    
+    // 2. Pedir al usuario que elija una categoría
+    String campo = (String) JOptionPane.showInputDialog(this, 
+            "Seleccione el criterio de búsqueda:", "Buscar Camión",
+            JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+    
+    if (campo != null) {
+        // 3. Pedir el valor a buscar
+        String valor = JOptionPane.showInputDialog(this, "Ingrese el valor de " + campo + ":");
+        
+        if (valor != null && !valor.trim().isEmpty()) {
+            DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+            controlador.buscarEnTabla(modelo, campo, valor);
+            
+            if (modelo.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "No se encontraron resultados.");
+                actualizarTabla(); // Si no hay nada, volvemos a mostrar todo
+            }
+        }
+    }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnReflescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReflescarActionPerformed
+    actualizarTabla(); // Recarga todos los datos de la DB
+    JOptionPane.showMessageDialog(this, "Tabla actualizada");
+    }//GEN-LAST:event_btnReflescarActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -255,16 +400,9 @@ public class ControlesCamiones extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ControlesCamiones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ControlesCamiones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ControlesCamiones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (Exception ex) {
             java.util.logging.Logger.getLogger(ControlesCamiones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
@@ -277,8 +415,10 @@ public class ControlesCamiones extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnReflescar;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
