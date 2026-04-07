@@ -4,7 +4,7 @@
  */
 package Vista;
 
-import Controles.CamionControlador;
+import Controle.CamionControlador;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 import java.awt.Color;
