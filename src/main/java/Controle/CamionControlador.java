@@ -23,21 +23,28 @@ public class CamionControlador {
     
     
     public void cargarTabla(DefaultTableModel modeloTabla) {
-        modeloTabla.setRowCount(0); // Limpia la tabla antes de cargar
-        List<Camion> lista = dao.listar();
-        
-        for (Camion c : lista) {
-            modeloTabla.addRow(new Object[]{
-                c.getIdCamion(), 
-                c.getPatente(), 
-                c.getMarca(), 
-                c.getModelo(), 
-                c.getRutConductorAsignado(), 
-                c.getKilometraje(), 
-                "No" // Valor por defecto para mantenimiento
-            });
-        }
+    // 1. Limpiar filas existentes
+    modeloTabla.setRowCount(0); 
+    
+    // 2. Obtener los datos actualizados
+    List<Camion> lista = dao.listar();
+    
+    // 3. Agregar cada uno de los registros encontrados
+    for (Camion c : lista) {
+        modeloTabla.addRow(new Object[]{
+            c.getIdCamion(),
+            c.getPatente(),
+            c.getMarca(),
+            c.getModelo(),
+            // Si no hay conductor, muestra un aviso en la celda
+            (c.getRutConductorAsignado() != null) ? c.getRutConductorAsignado() : "PENDIENTE",
+            c.getKilometraje(),
+            // Si no hay mantenimiento registrado, muestra "Al día"
+            (c.getEstadoMantenimiento() != null) ? c.getEstadoMantenimiento() : "Al día"
+        });
     }
+
+}
 
     /**
      * Procesa el registro de un nuevo camión
@@ -92,9 +99,16 @@ public void buscarEnTabla(DefaultTableModel modeloTabla, String campo, String va
     
     for (Camion c : lista) {
         modeloTabla.addRow(new Object[]{
-            c.getIdCamion(), c.getPatente(), c.getMarca(), c.getModelo(), 
-            c.getRutConductorAsignado(), c.getKilometraje(), "No"
-            });
-        }
+            c.getIdCamion(), 
+            c.getPatente(), 
+            c.getMarca(), 
+            c.getModelo(), 
+            c.getNombreChofer() != null ? c.getNombreChofer() : "Sin Asignar",
+            c.getKilometraje(), 
+            c.getEstadoMantenimiento()
+        });
     }
+}
+
+
 }

@@ -62,8 +62,9 @@ public class ControlesCamiones extends javax.swing.JFrame {
     }
 
     private void actualizarTabla() {
-        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-        controlador.cargarTabla(modelo);
+    DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+    // El controlador se encarga de pedir todo al DAO y llenar el modelo
+    controlador.cargarTabla(modelo); 
     }
 
     /**
@@ -126,6 +127,12 @@ public class ControlesCamiones extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -384,8 +391,8 @@ public class ControlesCamiones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnReflescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReflescarActionPerformed
-    actualizarTabla(); // Recarga todos los datos de la DB
-    JOptionPane.showMessageDialog(this, "Tabla actualizada");
+    actualizarTabla(); 
+    JOptionPane.showMessageDialog(this, "Se han cargado todos los camiones registrados.");
     }//GEN-LAST:event_btnReflescarActionPerformed
 
     /**

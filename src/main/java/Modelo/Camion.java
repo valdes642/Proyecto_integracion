@@ -18,11 +18,14 @@ public class Camion{
     private String rutConductorAsignado; 
     private boolean mantenimiento;
     private String patente; // Añadido para coincidir con tu SQL
+    // Chofer
+    private String nombreChofer;
+    private String estadoMantenimiento;
     
     public Camion() {
     }
 
-    public Camion(int idCamion, String marca, String modelo, int anio, int kilometraje, String rutConductorAsignado, boolean mantenimiento, String patente) {
+    public Camion(int idCamion, String marca, String modelo, int anio, int kilometraje, String rutConductorAsignado, boolean mantenimiento, String patente, String nombreChofer, String estadoMantenimiento) {
         this.idCamion = idCamion;
         this.marca = marca;
         this.modelo = modelo;
@@ -31,6 +34,8 @@ public class Camion{
         this.rutConductorAsignado = rutConductorAsignado;
         this.mantenimiento = mantenimiento;
         this.patente = patente;
+        this.nombreChofer = nombreChofer;
+        this.estadoMantenimiento = estadoMantenimiento;
     }
 
     public int getIdCamion() {
@@ -97,10 +102,27 @@ public class Camion{
         this.patente = patente;
     }
 
-    @Override
-    public String toString() {
-        return "Camion{" + "idCamion=" + idCamion + ", marca=" + marca + ", modelo=" + modelo + ", anio=" + anio + ", kilometraje=" + kilometraje + ", rutConductorAsignado=" + rutConductorAsignado + ", mantenimiento=" + mantenimiento + ", patente=" + patente + '}';
+    public String getNombreChofer() {
+        return nombreChofer;
     }
 
+    public void setNombreChofer(String nombreChofer) {
+        this.nombreChofer = nombreChofer;
+    }
+
+    public String getEstadoMantenimiento() {
+        return estadoMantenimiento;
+    }
+
+    public void setEstadoMantenimiento(String estadoMantenimiento) {
+        this.estadoMantenimiento = estadoMantenimiento;
+    }
+
+    @Override
+    public String toString() {
+        return "Camion{" + "idCamion=" + idCamion + ", marca=" + marca + ", modelo=" + modelo + ", anio=" + anio + ", kilometraje=" + kilometraje + ", rutConductorAsignado=" + rutConductorAsignado + ", mantenimiento=" + mantenimiento + ", patente=" + patente + ", nombreChofer=" + nombreChofer + ", estadoMantenimiento=" + estadoMantenimiento + '}';
+    }
+
+    
 }
 
