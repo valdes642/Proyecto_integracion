@@ -142,7 +142,7 @@ public class ControlesCamiones extends javax.swing.JFrame {
                 "N° Camione", "Matricula", "Marca", "Modelo", "Nom.Chofer", "Kilometros", "Matenimiento"
             }
         ));
-        jTable1.setPreferredSize(new java.awt.Dimension(500, 80));
+        jTable1.setPreferredSize(new java.awt.Dimension(600, 400));
         jTable1.setRequestFocusEnabled(false);
         jScrollPane1.setViewportView(jTable1);
 
@@ -252,13 +252,13 @@ public class ControlesCamiones extends javax.swing.JFrame {
                                 .addComponent(btnAgregar)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 58, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(214, 214, 214)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnReflescar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -304,7 +304,7 @@ public class ControlesCamiones extends javax.swing.JFrame {
                             .addComponent(btnModificar)
                             .addComponent(btnBuscar)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         pack();
