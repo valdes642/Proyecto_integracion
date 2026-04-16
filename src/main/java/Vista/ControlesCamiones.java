@@ -32,7 +32,7 @@ public class ControlesCamiones extends javax.swing.JFrame {
         // Metemos todos tus campos en una lista para no repetir codigo
         javax.swing.JTextField[] campos = {
             lblNumeracion, lblMatricula, lblMarca, lblModelo, 
-            lblNombreChofer, lblKM, lblMantenimiento
+            lblNombreChofer, lblKM
         };
 
         for (javax.swing.JTextField campo : campos) {
@@ -95,9 +95,9 @@ public class ControlesCamiones extends javax.swing.JFrame {
         lblKM = new javax.swing.JTextField();
         btnModificar = new javax.swing.JButton();
         textMarca = new javax.swing.JLabel();
-        lblMantenimiento = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         btnReflescar = new javax.swing.JButton();
+        ComboBoxMantenimiento = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -148,6 +148,7 @@ public class ControlesCamiones extends javax.swing.JFrame {
 
         lblModelo.setForeground(new java.awt.Color(204, 204, 204));
         lblModelo.setText("Modelo");
+        lblModelo.setPreferredSize(new java.awt.Dimension(64, 30));
 
         btnEliminar.setBackground(new java.awt.Color(255, 0, 51));
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -164,6 +165,7 @@ public class ControlesCamiones extends javax.swing.JFrame {
 
         lblNombreChofer.setForeground(new java.awt.Color(204, 204, 204));
         lblNombreChofer.setText("Nombre del Chofer");
+        lblNombreChofer.setPreferredSize(new java.awt.Dimension(117, 30));
 
         btnAgregar.setBackground(new java.awt.Color(102, 255, 102));
         btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -194,9 +196,6 @@ public class ControlesCamiones extends javax.swing.JFrame {
         textMarca.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
         textMarca.setText("Marca:");
 
-        lblMantenimiento.setForeground(new java.awt.Color(204, 204, 204));
-        lblMantenimiento.setText("Mantenimiento");
-
         btnBuscar.setBackground(new java.awt.Color(153, 153, 153));
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
@@ -215,6 +214,13 @@ public class ControlesCamiones extends javax.swing.JFrame {
             }
         });
 
+        ComboBoxMantenimiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Preventivo", "Correctivo" }));
+        ComboBoxMantenimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboBoxMantenimientoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -223,25 +229,27 @@ public class ControlesCamiones extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(textMantenimiento)
                                     .addComponent(textKM)
+                                    .addComponent(textMantenimiento)
                                     .addComponent(textNombreChofer)
+                                    .addComponent(textModelo)
                                     .addComponent(textMarca)
                                     .addComponent(textMatricula)
-                                    .addComponent(textNumeraciónCamion)
-                                    .addComponent(textModelo))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblNumeracion)
-                                    .addComponent(lblMatricula)
-                                    .addComponent(lblMarca)
-                                    .addComponent(lblModelo)
-                                    .addComponent(lblNombreChofer)
-                                    .addComponent(lblKM)
-                                    .addComponent(lblMantenimiento, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                    .addComponent(textNumeraciónCamion))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblNumeracion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblMatricula, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblNombreChofer, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblKM, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(ComboBoxMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnBuscar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -250,15 +258,14 @@ public class ControlesCamiones extends javax.swing.JFrame {
                                 .addComponent(btnEliminar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnAgregar)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 58, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(214, 214, 214)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(283, 283, 283)
                         .addComponent(btnReflescar)))
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,43 +275,43 @@ public class ControlesCamiones extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(btnReflescar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(textNumeraciónCamion)
-                            .addComponent(lblNumeracion, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textMatricula)
-                            .addComponent(lblMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblNumeracion, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textMarca)
-                            .addComponent(lblMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textMatricula))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textModelo)
-                            .addComponent(lblModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textNombreChofer)
-                            .addComponent(lblNombreChofer, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textMarca))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textKM)
-                            .addComponent(lblKM, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textModelo))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textMantenimiento)
-                            .addComponent(lblMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(lblNombreChofer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textNombreChofer))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblKM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textKM))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ComboBoxMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textMantenimiento))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnEliminar)
                             .addComponent(btnAgregar)
                             .addComponent(btnModificar)
                             .addComponent(btnBuscar)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(69, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
@@ -333,67 +340,97 @@ public class ControlesCamiones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-    // Capturar datos de la vista
-    String patente = lblMatricula.getText();
-    String marca = lblMarca.getText();
-    String modelo = lblModelo.getText();
-    String anio = "2024"; // Puedes cambiar esto por un campo de texto si lo tienes
-    String km = lblKM.getText();
-
-    // El controlador llama al DAO internamente
-    if (controlador.registrar(patente, marca, modelo, anio, km)) {
-        JOptionPane.showMessageDialog(this, "¡Camión guardado en la base de datos!");
-        actualizarTabla(); // Refresca la tabla automáticamente
-    } else {
-        JOptionPane.showMessageDialog(this, "Error al guardar. Revisa la conexión.");
-    }
-    }//GEN-LAST:event_btnAgregarActionPerformed
-
-    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-    String id = lblNumeracion.getText(); 
     String patente = lblMatricula.getText();
     String marca = lblMarca.getText();
     String modelo = lblModelo.getText();
     String anio = "2024"; 
     String km = lblKM.getText();
-
-    if (controlador.editar(id, patente, marca, modelo, anio, km)) {
-        JOptionPane.showMessageDialog(this, "Datos actualizados correctamente");
+    String tipoMantenimiento = ComboBoxMantenimiento.getSelectedItem().toString();
+    
+    // Ahora el controlador recibirá los 6 parámetros correctamente
+    if (controlador.registrar(patente, marca, modelo, anio, km, tipoMantenimiento)) {
+        JOptionPane.showMessageDialog(this, "¡Registro guardado!");
         actualizarTabla();
     } else {
-        JOptionPane.showMessageDialog(this, "No se pudo modificar el registro.");
+        JOptionPane.showMessageDialog(this, "Error al guardar.");
     }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+    String id = lblNumeracion.getText(); 
+        String patente = lblMatricula.getText();
+        String marca = lblMarca.getText();
+        String modelo = lblModelo.getText();
+        String anio = "2024"; 
+        String km = lblKM.getText();
+        
+        // Capturamos el ComboBox
+        String tipoMantenimiento = ComboBoxMantenimiento.getSelectedItem().toString();
+
+        // Añadimos tipoMantenimiento al final
+        if (controlador.editar(id, patente, marca, modelo, anio, km, tipoMantenimiento)) {
+            JOptionPane.showMessageDialog(this, "Datos actualizados correctamente");
+            actualizarTabla();
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo modificar el registro.");
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-    // 1. Opciones de búsqueda
-    String[] opciones = {"patente", "marca", "modelo", "id_conductor"};
-    
-    // 2. Pedir al usuario que elija una categoría
-    String campo = (String) JOptionPane.showInputDialog(this, 
-            "Seleccione el criterio de búsqueda:", "Buscar Camión",
-            JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
-    
-    if (campo != null) {
-        // 3. Pedir el valor a buscar
-        String valor = JOptionPane.showInputDialog(this, "Ingrese el valor de " + campo + ":");
+    // 1. Añadimos "tipo_mantenimiento" a las opciones
+        String[] opciones = {"patente", "marca", "modelo", "id_conductor", "tipo_mantenimiento"};
         
-        if (valor != null && !valor.trim().isEmpty()) {
-            DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-            controlador.buscarEnTabla(modelo, campo, valor);
+        // 2. Pedir al usuario que elija una categoría
+        String campo = (String) JOptionPane.showInputDialog(this, 
+                "Seleccione el criterio de búsqueda:", "Buscar Camión",
+                JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        
+        if (campo != null) {
+            // 3. Pedir el valor a buscar
+            String valor = JOptionPane.showInputDialog(this, "Ingrese el valor de " + campo + ":");
             
-            if (modelo.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(this, "No se encontraron resultados.");
-                actualizarTabla(); // Si no hay nada, volvemos a mostrar todo
+            if (valor != null && !valor.trim().isEmpty()) {
+                DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+                controlador.buscarEnTabla(modelo, campo, valor);
+                
+                if (modelo.getRowCount() == 0) {
+                    JOptionPane.showMessageDialog(this, "No se encontraron resultados.");
+                    actualizarTabla(); 
+                }
             }
         }
-    }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnReflescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReflescarActionPerformed
-    actualizarTabla(); 
-    JOptionPane.showMessageDialog(this, "Se han cargado todos los camiones registrados.");
+    // 1. Actualizamos la tabla de forma rápida y silenciosa
+        actualizarTabla(); 
+        
+        // 2. Limpiamos los campos de texto y restauramos sus placeholders (color gris)
+        lblNumeracion.setText("Numeracion");
+        lblNumeracion.setForeground(new java.awt.Color(204, 204, 204));
+        
+        lblMatricula.setText("Matricula");
+        lblMatricula.setForeground(new java.awt.Color(204, 204, 204));
+        
+        lblMarca.setText("Marca");
+        lblMarca.setForeground(new java.awt.Color(204, 204, 204));
+        
+        lblModelo.setText("Modelo");
+        lblModelo.setForeground(new java.awt.Color(204, 204, 204));
+        
+        lblNombreChofer.setText("Nombre del Chofer");
+        lblNombreChofer.setForeground(new java.awt.Color(204, 204, 204));
+        
+        lblKM.setText("Kilometros");
+        lblKM.setForeground(new java.awt.Color(204, 204, 204));
+        
+        // 3. Reiniciamos el ComboBox a su primera opción por defecto
+        ComboBoxMantenimiento.setSelectedIndex(0);
     }//GEN-LAST:event_btnReflescarActionPerformed
+
+    private void ComboBoxMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxMantenimientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboBoxMantenimientoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -421,6 +458,7 @@ public class ControlesCamiones extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> ComboBoxMantenimiento;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
@@ -430,7 +468,6 @@ public class ControlesCamiones extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField lblKM;
-    private javax.swing.JTextField lblMantenimiento;
     private javax.swing.JTextField lblMarca;
     private javax.swing.JTextField lblMatricula;
     private javax.swing.JTextField lblModelo;
