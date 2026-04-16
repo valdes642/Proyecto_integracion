@@ -4,30 +4,49 @@
  */
 package Modelo;
 
+// Modelo para los Usuarios (Login)
 public class Usuarios {
-    private int idUsuario;
-    private String username;
-    private String password;
-    private String rol;
+    private int id;
+    private String nombre;
+    private String clave;
 
     public Usuarios() {}
-
-    public Usuarios(int idUsuario, String username, String password, String rol) {
-        this.idUsuario = idUsuario;
-        this.username = username;
-        this.password = password;
-        this.rol = rol;
+    public Usuarios(int id, String nombre, String clave) {
+        this.id = id;
+        this.nombre = nombre;
+        this.clave = clave;
     }
 
-    public int getIdUsuario() { return idUsuario; }
-    public void setIdUsuario(int idUsuario) { this.idUsuario = idUsuario; }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getClave() { return clave; }
+    public void setClave(String clave) { this.clave = clave; }
+}
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+// Modelo para los Camiones
+public class Camion {
+    private String patente;
+    private String marca;
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public Camion(String patente, String marca) {
+        this.patente = patente;
+        this.marca = marca;
+    }
+    public String getPatente() { return patente; }
+    @Override
+    public String toString() { return patente; } // Para que se vea bien en el JComboBox
+}
 
-    public String getRol() { return rol; }
-    public void setRol(String rol) { this.rol = rol; }
+// Modelo para los Choferes
+public class Chofer {
+    private String rut;
+    private String nombre;
+
+    public Chofer(String rut, String nombre) {
+        this.rut = rut;
+        this.nombre = nombre;
+    }
+    public String getNombre() { return nombre; }
+    @Override
+    public String toString() { return nombre; } // Para que se vea bien en el JComboBox
 }

@@ -13,23 +13,17 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login
-     */
     public Login() {
         initComponents();
+        this.setLocationRelativeTo(null); // Centrar siempre al iniciar
         configurarPlaceholders();
     }
 
-    
-    
-    // --- MÉTODO PARA EL EFECTO PLACEHOLDER ---
     private void configurarPlaceholders() {
-        // Efecto para la caja de Usuario
+        // Efecto para Usuario
         txtUsuario.addFocusListener(new java.awt.event.FocusAdapter() {
             @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
-                // Si el usuario hace clic y dice "Usuario", lo borra y pone color negro
                 if (txtUsuario.getText().equals("Usuario")) {
                     txtUsuario.setText("");
                     txtUsuario.setForeground(new java.awt.Color(0, 0, 0)); 
@@ -37,7 +31,6 @@ public class Login extends javax.swing.JFrame {
             }
             @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
-                // Si el usuario se sale de la caja y no escribió nada, vuelve a poner "Usuario" en gris
                 if (txtUsuario.getText().isEmpty()) {
                     txtUsuario.setText("Usuario");
                     txtUsuario.setForeground(new java.awt.Color(204, 204, 204)); 
@@ -45,11 +38,10 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        // Efecto para la caja de Contraseña
+        // Efecto para Contraseña
         txtPassword.addFocusListener(new java.awt.event.FocusAdapter() {
             @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
-                // Si el usuario hace clic y dice "Contraseña", lo borra y pone color negro
                 if (txtPassword.getText().equals("Contraseña")) {
                     txtPassword.setText("");
                     txtPassword.setForeground(new java.awt.Color(0, 0, 0)); 
@@ -57,7 +49,6 @@ public class Login extends javax.swing.JFrame {
             }
             @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
-                // Si el usuario se sale de la caja y no escribió nada, vuelve a poner "Contraseña" en gris
                 if (txtPassword.getText().isEmpty()) {
                     txtPassword.setText("Contraseña");
                     txtPassword.setForeground(new java.awt.Color(204, 204, 204)); 
@@ -152,29 +143,32 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-    // 1. Capturamos lo que el usuario escribió en las cajas de texto
-        String user = txtUsuario.getText();
-        
-        // ¡Ahora getPassword() funcionará perfectamente!
-        String pass = txtPassword.getText(); // PON ESTO
+    // 1. Capturamos lo que el usuario escribió
+    String user = txtUsuario.getText();
+    String pass = txtPassword.getText(); 
 
-        // 2. Instanciamos el Controlador en lugar del DAO
-        Controle.UsuarioControlador controlador = new Controle.UsuarioControlador();
-        
-        // 3. Ejecutamos la validación a través del controlador
-        Usuarios usuarioLogueado = controlador.iniciarSesion(user, pass);   
+    // Validamos que no intenten ingresar con el placeholder
+    if (user.equals("Usuario") || pass.equals("Contraseña") || user.isEmpty() || pass.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Atención", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
-        // 4. El código por el que preguntas: comprobamos si entró y abrimos la ventana
-        if (usuarioLogueado != null) {
-            // Login exitoso: Le pasas el usuario al constructor para que aplique los bloqueos
-            ControlesCamiones vista = new ControlesCamiones(usuarioLogueado);
-            vista.setVisible(true);
-            vista.setLocationRelativeTo(null); // Para que aparezca centrada
-            this.dispose(); // Cierra la ventana del login
-        } else {
-            // Login fallido: mostramos un mensaje de error
-            JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error de Ingreso", JOptionPane.ERROR_MESSAGE);
-        }
+    // 2. Usamos el DAO o Controlador para validar (usaré UsuarioDAO según tus imports)
+    DAO.UsuarioDAO dao = new DAO.UsuarioDAO();
+    Modelo.Usuarios usuarioEncontrado = dao.iniciarSesion(user, pass); 
+
+    // 3. Comprobamos si el usuario existe en la BD
+    if (usuarioEncontrado != null) {
+        // Login exitoso: Abrimos el MENU y le pasamos el usuario
+        Menu menuPrincipal = new Menu(usuarioEncontrado); 
+        menuPrincipal.setVisible(true);
+        menuPrincipal.setLocationRelativeTo(null); 
+        
+        this.dispose(); // Cerramos el Login
+    } else {
+        // Login fallido
+        JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error de Acceso", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**

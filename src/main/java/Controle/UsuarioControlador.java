@@ -4,16 +4,10 @@
  */
 package Controle;
 
-import DAO.UsuarioDAO;
-import Modelo.Usuarios;
-
+/**
+ *
+ * @author tomas
+ */
 public class UsuarioControlador {
     
-    // Instanciamos el DAO
-    UsuarioDAO dao = new UsuarioDAO();
-    
-    // Método que servirá de puente entre la Vista y el DAO
-    public Usuarios iniciarSesion(String username, String password) {
-        return dao.validarLogin(username, password);
-    }
 }
