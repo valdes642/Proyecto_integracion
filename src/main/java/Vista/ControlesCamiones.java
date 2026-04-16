@@ -77,34 +77,49 @@ public class ControlesCamiones extends javax.swing.JFrame {
     }
 
     public void aplicarPermisos(Usuarios usuario) {
+    if (usuario == null) return;
     String rol = usuario.getRol();
 
     switch (rol) {
+        case "Admin":
+            // Acceso total: Puede agregar, eliminar y modificar todos los campos
+            btnAgregar.setEnabled(true);
+            btnEliminar.setEnabled(true);
+            btnModificar.setEnabled(true);
+            lblMatricula.setEditable(true);
+            lblMarca.setEditable(true);
+            lblModelo.setEditable(true);
+            lblKM.setEditable(true);
+            lblNombreChofer.setEditable(true);
+            ComboBoxMantenimiento.setEnabled(true);
+            break;
+
         case "Revision_Mantenimiento":
-            // SOLO puede cambiar el mantenimiento
+            // REQUISITO: Solo cambiar el tipo de mantenimiento
             btnAgregar.setEnabled(false);
             btnEliminar.setEnabled(false);
-            btnModificar.setEnabled(true); // Necesario para guardar el cambio de estado
+            btnModificar.setEnabled(true); // Se habilita para guardar el cambio de estado
             
-            // Bloquear datos estructurales
+            // Bloquear datos técnicos del camión y chofer
+            lblNumeracion.setEditable(false);
             lblMatricula.setEditable(false);
             lblMarca.setEditable(false);
             lblModelo.setEditable(false);
             lblKM.setEditable(false);
             lblNombreChofer.setEditable(false);
             
-            // UNICA ACCIÓN PERMITIDA:
+            // Única acción permitida: cambiar el combo box
             ComboBoxMantenimiento.setEnabled(true); 
             break;
 
         case "Revision_Conductores":
-            // SOLO lectura total
+            // REQUISITO: Solo ver información, no modificar nada
             btnAgregar.setEnabled(false);
             btnEliminar.setEnabled(false);
             btnModificar.setEnabled(false);
-            btnBuscar.setEnabled(true); // Permitir buscar pero no editar
+            btnBuscar.setEnabled(true); // Se deja habilitado para facilitar la consulta
             
-            // Bloquear todos los campos
+            // Bloquear todos los campos para evitar ediciones visuales
             lblNumeracion.setEditable(false);
             lblMatricula.setEditable(false);
             lblMarca.setEditable(false);
@@ -112,10 +127,6 @@ public class ControlesCamiones extends javax.swing.JFrame {
             lblKM.setEditable(false);
             lblNombreChofer.setEditable(false);
             ComboBoxMantenimiento.setEnabled(false);
-            break;
-            
-        case "Admin":
-            // Acceso total (se mantiene como estaba)
             break;
     }
 }

@@ -36,17 +36,21 @@ public class ControlesAsignacion extends javax.swing.JFrame {
     }
 
     private void aplicarPermisos() {
-        if (usuarioActual == null) return;
-        String rol = usuarioActual.getRol();
+    if (usuarioActual == null) return;
+    String rol = usuarioActual.getRol();
 
-        // REQUISITO: Solo Admin puede asignar. Mantenimiento y Conductores solo ven.
-        if (rol.equals("Revision_Mantenimiento") || rol.equals("Revision_Conductores")) {
-            btnAsignar.setEnabled(false);
-            ComboBoxConductor.setEnabled(false);
-            ComboBoxCamion.setEnabled(false);
-            setTitle("Asignaciones - Modo Consulta (Solo Lectura)");
-        }
+    // REQUISITO: Conductores y Mantenimiento solo pueden ver (Modo Consulta)
+    if (rol.equals("Revision_Conductores") || rol.equals("Revision_Mantenimiento")) {
+        btnAsignar.setEnabled(false); // Deshabilitar el botón de guardado
+        ComboBoxConductor.setEnabled(false);
+        ComboBoxCamion.setEnabled(false);
+        
+        // Cambio visual del título para indicar el modo lectura
+        setTitle("Asignaciones - Modo Consulta (Solo Lectura)");
+        
+        // Si tienes botones de eliminar/editar en la tabla, también deben deshabilitarse
     }
+}
 
     private void configurarTabla() {
         modelo = new DefaultTableModel(
