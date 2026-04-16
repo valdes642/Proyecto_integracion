@@ -101,6 +101,7 @@ public class ControlesCamiones extends javax.swing.JFrame {
         btnBuscar = new javax.swing.JButton();
         btnReflescar = new javax.swing.JButton();
         ComboBoxMantenimiento = new javax.swing.JComboBox<>();
+        btnChoferes = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -238,6 +239,14 @@ public class ControlesCamiones extends javax.swing.JFrame {
             }
         });
 
+        btnChoferes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnChoferes.setText("Choferes");
+        btnChoferes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChoferesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -280,9 +289,11 @@ public class ControlesCamiones extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(214, 214, 214)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(283, 283, 283)
+                        .addGap(189, 189, 189)
+                        .addComponent(btnChoferes)
+                        .addGap(18, 18, 18)
                         .addComponent(btnReflescar)))
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -290,7 +301,8 @@ public class ControlesCamiones extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(btnReflescar))
+                    .addComponent(btnReflescar)
+                    .addComponent(btnChoferes))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -481,6 +493,16 @@ public class ControlesCamiones extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void btnChoferesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChoferesActionPerformed
+    // Abre la vista de Choferes
+        ControlesChoferes vistaChoferes = new ControlesChoferes();
+        vistaChoferes.setVisible(true);
+        vistaChoferes.setLocationRelativeTo(null); // Centrar la ventana
+        
+        // Cierra la ventana actual de Camiones
+        this.dispose();
+    }//GEN-LAST:event_btnChoferesActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -511,6 +533,7 @@ public class ControlesCamiones extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> ComboBoxMantenimiento;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnChoferes;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnReflescar;

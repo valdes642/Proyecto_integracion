@@ -13,7 +13,7 @@ public class Conexion {
     private static final String USER = "root"; // Tu usuario de MySQL
     private static final String PASSWORD = "root"; // Tu contraseña de MySQL
 
-    public static Connection getConexion() {
+    public static Connection getConnection() {
         Connection con = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

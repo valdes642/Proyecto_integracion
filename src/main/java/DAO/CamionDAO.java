@@ -24,7 +24,7 @@ public class CamionDAO {
                      "           FROM mantenimiento GROUP BY id_camion) m ON c.id_camion = m.id_camion " +
                      "ORDER BY c.id_camion ASC"; 
 
-        try (Connection con = Conexion.getConexion();
+        try (Connection con = Conexion.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             
@@ -54,7 +54,7 @@ public class CamionDAO {
         
         Connection con = null;
         try {
-            con = Conexion.getConexion();
+            con = Conexion.getConnection();
             // Desactivamos el autocommit para hacer una transacción segura
             con.setAutoCommit(false); 
 
@@ -115,7 +115,7 @@ public class CamionDAO {
         
         Connection con = null;
         try {
-            con = Conexion.getConexion();
+            con = Conexion.getConnection();
             con.setAutoCommit(false); // Iniciar transacción segura
 
             // 1. Modificar Camión
@@ -178,7 +178,7 @@ public class CamionDAO {
         
         sql += "ORDER BY c.id_camion ASC";
 
-        try (Connection con = Conexion.getConexion();
+        try (Connection con = Conexion.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             
             ps.setString(1, "%" + valor + "%");
@@ -211,7 +211,7 @@ public class CamionDAO {
         
         Connection con = null;
         try {
-            con = Conexion.getConexion();
+            con = Conexion.getConnection();
             con.setAutoCommit(false); // Iniciar transacción
 
             // 1. Eliminar primero los registros dependientes (Mantenimiento)

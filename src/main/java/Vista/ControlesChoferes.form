@@ -24,15 +24,13 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="textKM" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="textMantenimiento" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="textNombreChofer" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="textModelo" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="textMarca" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -40,16 +38,12 @@
                                   <Component id="textNumeraciónCamion" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                      <Component id="lblNumeracion" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                      <Component id="lblMatricula" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
-                                      <Component id="lblMarca" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                      <Component id="lblModelo" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                      <Component id="lblNombreChofer" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                      <Component id="lblKM" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="ComboBoxMantenimiento" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblRut" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <Component id="lblNombre" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <Component id="lblApellidos" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <Component id="lblLicencia" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <Component id="lblTelefono" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -63,16 +57,17 @@
                           </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" pref="557" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="436" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="214" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="btnVolver" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="136" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" pref="344" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="283" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnReflescar" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="14" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -83,43 +78,34 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnReflescar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnVolver" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="textNumeraciónCamion" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblNumeracion" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="lblRut" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblMatricula" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="lblNombre" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="textMatricula" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblMarca" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="lblApellidos" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="textMarca" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblModelo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblLicencia" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="textModelo" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblNombreChofer" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblTelefono" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="textNombreChofer" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblKM" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="textKM" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="ComboBoxMantenimiento" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="textMantenimiento" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -129,9 +115,9 @@
                           <Component id="btnBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="jScrollPane1" alignment="0" pref="0" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="18" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -148,32 +134,16 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReflescarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="lblModelo">
+    <Component class="javax.swing.JTextField" name="lblLicencia">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Modelo"/>
+        <Property name="text" type="java.lang.String" value="Licencia"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[64, 30]"/>
         </Property>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="ComboBoxMantenimiento">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="2">
-            <StringItem index="0" value="Preventivo"/>
-            <StringItem index="1" value="Correctivo"/>
-          </StringArray>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComboBoxMantenimientoActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="btnEliminar">
       <Properties>
@@ -197,15 +167,15 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI Emoji" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Numeraci&#xf3;n camion: "/>
+        <Property name="text" type="java.lang.String" value="Rut: "/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="lblNombreChofer">
+    <Component class="javax.swing.JTextField" name="lblTelefono">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Nombre del Chofer"/>
+        <Property name="text" type="java.lang.String" value="Telefono"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[117, 30]"/>
         </Property>
@@ -233,15 +203,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI Emoji" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Matricula: "/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="lblKM">
-      <Properties>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="cc" red="cc" type="rgb"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Kilometros"/>
+        <Property name="text" type="java.lang.String" value="Nombre: "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnModificar">
@@ -266,7 +228,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI Emoji" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Modelo: "/>
+        <Property name="text" type="java.lang.String" value="lblLicencia: "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="textNombreChofer">
@@ -274,32 +236,19 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI Emoji" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Nombre Chofer:"/>
+        <Property name="text" type="java.lang.String" value="Telefono"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="textKM">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI Emoji" size="12" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="KM:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="textMantenimiento">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI Emoji" size="12" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Mantenimiento :"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="lblNumeracion">
+    <Component class="javax.swing.JTextField" name="lblRut">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Numeracion"/>
+        <Property name="text" type="java.lang.String" value="Rut"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lblRutActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -309,20 +258,20 @@
         <Property name="text" type="java.lang.String" value="Controlador DE Choferes"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="lblMatricula">
+    <Component class="javax.swing.JTextField" name="lblNombre">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Matricula"/>
+        <Property name="text" type="java.lang.String" value="Nombre"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="lblMarca">
+    <Component class="javax.swing.JTextField" name="lblApellidos">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Marca"/>
+        <Property name="text" type="java.lang.String" value="Apellidos"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="textMarca">
@@ -330,7 +279,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI Emoji" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Marca:"/>
+        <Property name="text" type="java.lang.String" value="Apellidos:"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -340,18 +289,45 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
+        <Component class="javax.swing.JTable" name="jTableChoferes">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="7" rowCount="10">
-                <Column editable="true" title="N&#xb0; Camione" type="java.lang.Object"/>
-                <Column editable="true" title="Matricula" type="java.lang.Object"/>
-                <Column editable="true" title="Marca" type="java.lang.Object"/>
-                <Column editable="true" title="Modelo" type="java.lang.Object"/>
-                <Column editable="true" title="Nom.Chofer" type="java.lang.Object"/>
-                <Column editable="true" title="Kilometros" type="java.lang.Object"/>
-                <Column editable="true" title="Matenimiento" type="java.lang.Object"/>
+              <Table columnCount="5" rowCount="10">
+                <Column editable="true" title="Rut" type="java.lang.Object"/>
+                <Column editable="true" title="Nombre" type="java.lang.Object"/>
+                <Column editable="true" title="Apellidos" type="java.lang.Object"/>
+                <Column editable="true" title="Licencia" type="java.lang.Object"/>
+                <Column editable="true" title="Telefono" type="java.lang.Object"/>
               </Table>
+            </Property>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+              </TableColumnModel>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[600, 400]"/>
@@ -362,7 +338,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable1MouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableChoferesMouseClicked"/>
           </Events>
         </Component>
       </SubComponents>
@@ -382,6 +358,17 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnVolver">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Volver"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVolverActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
