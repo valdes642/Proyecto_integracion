@@ -10,26 +10,37 @@ import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import Controle.ChoferControlador;
-// IMPORTANTE: Descomenta esto cuando crees tu ChoferControlador
-// import Controle.ChoferControlador; 
+import Modelo.Usuarios;
 
 public class ControlesChoferes extends javax.swing.JFrame {
+    
     ChoferControlador controlador = new ChoferControlador();
+    
+    // Variable para guardar el usuario que navega por la app
+    private Usuarios usuarioActual;
 
+    // 1. Constructor vacío por defecto
     public ControlesChoferes() {
         initComponents();
-        this.setLocationRelativeTo(null); // Centra la ventana al abrir
-        
-        // 2. Cargamos los datos en la tabla (Descomentar cuando tengas el controlador)
+        this.setLocationRelativeTo(null);
         actualizarTabla();
-        
-        // 3. Activamos el efecto de placeholders
         configurarPlaceholders();
+    }
+
+    // 2. NUEVO Constructor que recibe el usuario para aplicar los permisos
+    public ControlesChoferes(Usuarios usuario) {
+        this.usuarioActual = usuario; // Guardamos el usuario
+        initComponents();
+        this.setLocationRelativeTo(null);
+        actualizarTabla();
+        configurarPlaceholders();
+        
+        // Ejecutamos los permisos
+        aplicarPermisos(usuarioActual);
     }
 
     // --- EFECTO PLACEHOLDER PARA CHOFERES ---
     private void configurarPlaceholders() {
-        // Asegúrate de que estos nombres coincidan con los JTextField que crees en NetBeans
         javax.swing.JTextField[] campos = {
             lblRut, lblNombre, lblApellidos, lblLicencia, lblTelefono
         };
@@ -56,10 +67,59 @@ public class ControlesChoferes extends javax.swing.JFrame {
             });
         }
     }
-
+    
     private void actualizarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) jTableChoferes.getModel();
         controlador.cargarTabla(modelo); 
+    }
+    
+    public void aplicarPermisos(Usuarios usuario) {
+        if (usuario == null) return; // Por seguridad
+
+        String rol = usuario.getRol();
+
+        switch (rol) {
+            case "Admin":
+                // Tiene acceso total a crear, editar y borrar choferes
+                btnAgregar.setEnabled(true);
+                btnEliminar.setEnabled(true);
+                btnModificar.setEnabled(true);
+                
+                lblRut.setEditable(true);
+                lblNombre.setEditable(true);
+                lblApellidos.setEditable(true);
+                lblLicencia.setEditable(true);
+                lblTelefono.setEditable(true);
+                break;
+
+            case "Revision_Conductores":
+                // En esta ventana, solo puede VER a los choferes, pero NO modificar sus datos personales.
+                btnAgregar.setEnabled(false);
+                btnEliminar.setEnabled(false);
+                btnModificar.setEnabled(false); 
+                
+                // Bloquear campos de texto para que no escriba en ellos
+                lblRut.setEditable(false);
+                lblNombre.setEditable(false);
+                lblApellidos.setEditable(false);
+                lblLicencia.setEditable(false);
+                lblTelefono.setEditable(false);
+                break;
+
+            case "Revision_Mantenimiento":
+                // El de mantenimiento no tiene nada que hacer editando choferes, solo ve.
+                btnAgregar.setEnabled(false);
+                btnEliminar.setEnabled(false);
+                btnModificar.setEnabled(false);
+                
+                // Bloquear campos de texto
+                lblRut.setEditable(false);
+                lblNombre.setEditable(false);
+                lblApellidos.setEditable(false);
+                lblLicencia.setEditable(false);
+                lblTelefono.setEditable(false);
+                break;
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -434,10 +494,11 @@ public class ControlesChoferes extends javax.swing.JFrame {
     }//GEN-LAST:event_lblRutActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-    ControlesCamiones vistaCamiones = new ControlesCamiones();
+    // Le regresamos el usuario actual a la vista de Camiones
+        ControlesCamiones vistaCamiones = new ControlesCamiones(usuarioActual);
         vistaCamiones.setVisible(true);
         vistaCamiones.setLocationRelativeTo(null);
-        this.dispose(); // Cierra la ventana de choferes
+        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     /**

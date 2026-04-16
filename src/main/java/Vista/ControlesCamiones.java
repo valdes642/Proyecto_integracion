@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import Modelo.Usuarios;
 /**
  *
  * @author tomas
@@ -19,14 +20,25 @@ public class ControlesCamiones extends javax.swing.JFrame {
     // 1. Instanciamos el controlador
     CamionControlador controlador = new CamionControlador();
 
+    // Variable global para guardar el usuario que inició sesión
+    private Usuarios usuarioActual;
+
+    // Constructor vacío por si lo necesitas
     public ControlesCamiones() {
         initComponents();
-        // 2. Cargamos los datos en la tabla
         actualizarTabla();
-        // 3. Activamos el efecto para que se borren al escribir
         configurarPlaceholders();
     }
-
+    
+    public ControlesCamiones(Usuarios usuario) {
+        this.usuarioActual = usuario;
+        initComponents();
+        actualizarTabla();
+        configurarPlaceholders();
+        
+        // Aplicamos los permisos justo después de cargar la pantalla
+        aplicarPermisos(usuario); 
+    }
     
     
     
@@ -64,6 +76,61 @@ public class ControlesCamiones extends javax.swing.JFrame {
         }
     }
 
+    public void aplicarPermisos(Usuarios usuario) {
+        String rol = usuario.getRol();
+
+        switch (rol) {
+            case "Admin":
+                // Tiene acceso a todo
+                btnAgregar.setEnabled(true);
+                btnEliminar.setEnabled(true);
+                btnModificar.setEnabled(true);
+                
+                lblMatricula.setEditable(true);
+                lblMarca.setEditable(true);
+                lblModelo.setEditable(true);
+                lblKM.setEditable(true);
+                lblNombreChofer.setEditable(true);
+                ComboBoxMantenimiento.setEnabled(true);
+                break;
+
+            case "Revision_Conductores":
+                // SÓLO puede modificar el chofer
+                btnAgregar.setEnabled(false);
+                btnEliminar.setEnabled(false);
+                btnModificar.setEnabled(true); 
+                
+                // Bloquear campos de datos del camión
+                lblMatricula.setEditable(false);
+                lblMarca.setEditable(false);
+                lblModelo.setEditable(false);
+                lblKM.setEditable(false);
+                ComboBoxMantenimiento.setEnabled(false);
+                
+                // Permitir editar el nombre del chofer
+                lblNombreChofer.setEditable(true); 
+                break;
+
+            case "Revision_Mantenimiento":
+                // SÓLO puede cambiar el mantenimiento
+                btnAgregar.setEnabled(false);
+                btnEliminar.setEnabled(false);
+                btnModificar.setEnabled(true);
+                
+                // Bloquear datos del camión y del conductor
+                lblMatricula.setEditable(false);
+                lblMarca.setEditable(false);
+                lblModelo.setEditable(false);
+                lblKM.setEditable(false);
+                lblNombreChofer.setEditable(false);
+                
+                // Permitir usar el ComboBox de Mantenimiento
+                ComboBoxMantenimiento.setEnabled(true); 
+                break;
+        }
+    }
+    
+    
     private void actualizarTabla() {
     DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
     // El controlador se encarga de pedir todo al DAO y llenar el modelo
@@ -494,12 +561,10 @@ public class ControlesCamiones extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void btnChoferesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChoferesActionPerformed
-    // Abre la vista de Choferes
-        ControlesChoferes vistaChoferes = new ControlesChoferes();
+        // Le pasamos el usuario actual a la vista de Choferes
+        ControlesChoferes vistaChoferes = new ControlesChoferes(usuarioActual);
         vistaChoferes.setVisible(true);
-        vistaChoferes.setLocationRelativeTo(null); // Centrar la ventana
-        
-        // Cierra la ventana actual de Camiones
+        vistaChoferes.setLocationRelativeTo(null); 
         this.dispose();
     }//GEN-LAST:event_btnChoferesActionPerformed
 

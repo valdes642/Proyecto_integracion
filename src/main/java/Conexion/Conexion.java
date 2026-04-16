@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class Conexion {
     private static final String URL = "jdbc:mysql://localhost:3306/hirata_db";
     private static final String USER = "root"; // Tu usuario de MySQL
-    private static final String PASSWORD = "060402"; // Tu contraseña de MySQL
+    private static final String PASSWORD = "root"; // Tu contraseña de MySQL
 
     public static Connection getConnection() {
         Connection con = null;
