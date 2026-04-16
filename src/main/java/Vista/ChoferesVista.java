@@ -4,70 +4,17 @@
  */
 package Vista;
 
-import Controle.CamionControlador;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JOptionPane;
-import java.awt.Color;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 /**
  *
  * @author tomas
  */
-public class ControlesCamiones extends javax.swing.JFrame {
+public class ChoferesVista extends javax.swing.JFrame {
 
-    // 1. Instanciamos el controlador
-    CamionControlador controlador = new CamionControlador();
-
-    public ControlesCamiones() {
+    /**
+     * Creates new form ChoferesVista
+     */
+    public ChoferesVista() {
         initComponents();
-        // 2. Cargamos los datos en la tabla
-        actualizarTabla();
-        // 3. Activamos el efecto para que se borren al escribir
-        configurarPlaceholders();
-    }
-
-    
-    
-    
-    // --- MÉTODO MAGICO PARA LOS EDIT TEXT ---
-    private void configurarPlaceholders() {
-        // Metemos todos tus campos en una lista para no repetir codigo
-        javax.swing.JTextField[] campos = {
-            lblNumeracion, lblMatricula, lblMarca, lblModelo, 
-            lblNombreChofer, lblKM
-        };
-
-        for (javax.swing.JTextField campo : campos) {
-            // Guardamos el nombre original que pusiste en NetBeans como "guia"
-            String textoGuia = campo.getText();
-
-            campo.addFocusListener(new FocusAdapter() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    // Si el usuario hace clic y está el texto de guia, lo borramos
-                    if (campo.getText().equals(textoGuia)) {
-                        campo.setText("");
-                        campo.setForeground(Color.BLACK); // Color de letra normal al escribir
-                    }
-                }
-
-                @Override
-                public void focusLost(FocusEvent e) {
-                    // Si el usuario se sale y no escribió nada, ponemos la guia de nuevo
-                    if (campo.getText().isEmpty()) {
-                        campo.setForeground(new Color(204, 204, 204)); // Color gris
-                        campo.setText(textoGuia);
-                    }
-                }
-            });
-        }
-    }
-
-    private void actualizarTabla() {
-    DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-    // El controlador se encarga de pedir todo al DAO y llenar el modelo
-    controlador.cargarTabla(modelo); 
     }
 
     /**
@@ -79,6 +26,16 @@ public class ControlesCamiones extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnReflescar = new javax.swing.JButton();
+        lblModelo = new javax.swing.JTextField();
+        ComboBoxMantenimiento = new javax.swing.JComboBox<>();
+        btnEliminar = new javax.swing.JButton();
+        textNumeraciónCamion = new javax.swing.JLabel();
+        lblNombreChofer = new javax.swing.JTextField();
+        btnAgregar = new javax.swing.JButton();
+        textMatricula = new javax.swing.JLabel();
+        lblKM = new javax.swing.JTextField();
+        btnModificar = new javax.swing.JButton();
         textModelo = new javax.swing.JLabel();
         textNombreChofer = new javax.swing.JLabel();
         textKM = new javax.swing.JLabel();
@@ -87,85 +44,31 @@ public class ControlesCamiones extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         lblMatricula = new javax.swing.JTextField();
         lblMarca = new javax.swing.JTextField();
+        textMarca = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        lblModelo = new javax.swing.JTextField();
-        btnEliminar = new javax.swing.JButton();
-        textNumeraciónCamion = new javax.swing.JLabel();
-        lblNombreChofer = new javax.swing.JTextField();
-        btnAgregar = new javax.swing.JButton();
-        textMatricula = new javax.swing.JLabel();
-        lblKM = new javax.swing.JTextField();
-        btnModificar = new javax.swing.JButton();
-        textMarca = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
-        btnReflescar = new javax.swing.JButton();
-        ComboBoxMantenimiento = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        textModelo.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
-        textModelo.setText("Modelo: ");
-
-        textNombreChofer.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
-        textNombreChofer.setText("Nombre Chofer:");
-
-        textKM.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
-        textKM.setText("KM:");
-
-        textMantenimiento.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
-        textMantenimiento.setText("Mantenimiento :");
-
-        lblNumeracion.setForeground(new java.awt.Color(204, 204, 204));
-        lblNumeracion.setText("Numeracion");
-
-        jLabel2.setFont(new java.awt.Font("Stencil", 2, 24)); // NOI18N
-        jLabel2.setText("Controlador DE camiones");
-
-        lblMatricula.setForeground(new java.awt.Color(204, 204, 204));
-        lblMatricula.setText("Matricula");
-
-        lblMarca.setForeground(new java.awt.Color(204, 204, 204));
-        lblMarca.setText("Marca");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "N° Camione", "Matricula", "Marca", "Modelo", "Nom.Chofer", "Kilometros", "Matenimiento"
-            }
-        ));
-        jTable1.setPreferredSize(new java.awt.Dimension(600, 400));
-        jTable1.setRequestFocusEnabled(false);
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+        btnReflescar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnReflescar.setText("Reflescar ");
+        btnReflescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReflescarActionPerformed(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setHeaderValue("N° Camione");
-            jTable1.getColumnModel().getColumn(1).setHeaderValue("Matricula");
-            jTable1.getColumnModel().getColumn(2).setHeaderValue("Marca");
-            jTable1.getColumnModel().getColumn(3).setHeaderValue("Modelo");
-            jTable1.getColumnModel().getColumn(4).setHeaderValue("Nom.Chofer");
-            jTable1.getColumnModel().getColumn(5).setHeaderValue("Kilometros");
-            jTable1.getColumnModel().getColumn(6).setHeaderValue("Matenimiento");
-        }
 
         lblModelo.setForeground(new java.awt.Color(204, 204, 204));
         lblModelo.setText("Modelo");
         lblModelo.setPreferredSize(new java.awt.Dimension(64, 30));
+
+        ComboBoxMantenimiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Preventivo", "Correctivo" }));
+        ComboBoxMantenimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboBoxMantenimientoActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setBackground(new java.awt.Color(255, 0, 51));
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -210,8 +113,58 @@ public class ControlesCamiones extends javax.swing.JFrame {
             }
         });
 
+        textModelo.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
+        textModelo.setText("Modelo: ");
+
+        textNombreChofer.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
+        textNombreChofer.setText("Nombre Chofer:");
+
+        textKM.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
+        textKM.setText("KM:");
+
+        textMantenimiento.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
+        textMantenimiento.setText("Mantenimiento :");
+
+        lblNumeracion.setForeground(new java.awt.Color(204, 204, 204));
+        lblNumeracion.setText("Numeracion");
+
+        jLabel2.setFont(new java.awt.Font("Stencil", 2, 24)); // NOI18N
+        jLabel2.setText("Controlador DE Choferes");
+
+        lblMatricula.setForeground(new java.awt.Color(204, 204, 204));
+        lblMatricula.setText("Matricula");
+
+        lblMarca.setForeground(new java.awt.Color(204, 204, 204));
+        lblMarca.setText("Marca");
+
         textMarca.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
         textMarca.setText("Marca:");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "N° Camione", "Matricula", "Marca", "Modelo", "Nom.Chofer", "Kilometros", "Matenimiento"
+            }
+        ));
+        jTable1.setPreferredSize(new java.awt.Dimension(600, 400));
+        jTable1.setRequestFocusEnabled(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
 
         btnBuscar.setBackground(new java.awt.Color(153, 153, 153));
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -220,21 +173,6 @@ public class ControlesCamiones extends javax.swing.JFrame {
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
-            }
-        });
-
-        btnReflescar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnReflescar.setText("Reflescar ");
-        btnReflescar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReflescarActionPerformed(evt);
-            }
-        });
-
-        ComboBoxMantenimiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Preventivo", "Correctivo" }));
-        ComboBoxMantenimiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ComboBoxMantenimientoActionPerformed(evt);
             }
         });
 
@@ -282,7 +220,7 @@ public class ControlesCamiones extends javax.swing.JFrame {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(283, 283, 283)
                         .addComponent(btnReflescar)))
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -328,59 +266,90 @@ public class ControlesCamiones extends javax.swing.JFrame {
                             .addComponent(btnModificar)
                             .addComponent(btnBuscar)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnReflescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReflescarActionPerformed
+        // 1. Actualizamos la tabla de forma rápida y silenciosa
+        actualizarTabla();
+
+        // 2. Limpiamos los campos de texto y restauramos sus placeholders (color gris)
+        lblNumeracion.setText("Numeracion");
+        lblNumeracion.setForeground(new java.awt.Color(204, 204, 204));
+
+        lblMatricula.setText("Matricula");
+        lblMatricula.setForeground(new java.awt.Color(204, 204, 204));
+
+        lblMarca.setText("Marca");
+        lblMarca.setForeground(new java.awt.Color(204, 204, 204));
+
+        lblModelo.setText("Modelo");
+        lblModelo.setForeground(new java.awt.Color(204, 204, 204));
+
+        lblNombreChofer.setText("Nombre del Chofer");
+        lblNombreChofer.setForeground(new java.awt.Color(204, 204, 204));
+
+        lblKM.setText("Kilometros");
+        lblKM.setForeground(new java.awt.Color(204, 204, 204));
+
+        // 3. Reiniciamos el ComboBox a su primera opción por defecto
+        ComboBoxMantenimiento.setSelectedIndex(0);
+    }//GEN-LAST:event_btnReflescarActionPerformed
+
+    private void ComboBoxMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxMantenimientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboBoxMantenimientoActionPerformed
+
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-    int filaSeleccionada = jTable1.getSelectedRow();
-    
-    if (filaSeleccionada >= 0) {
-        // Obtenemos el ID de la primera columna (columna 0)
-        String id = jTable1.getValueAt(filaSeleccionada, 0).toString();
-        
-        int confirmar = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres eliminar el camión ID: " + id + "?");
-        
-        if (confirmar == JOptionPane.YES_OPTION) {
-            if (controlador.borrar(id)) {
-                JOptionPane.showMessageDialog(this, "Registro eliminado de la base de datos");
-                actualizarTabla();
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al eliminar.");
+        int filaSeleccionada = jTable1.getSelectedRow();
+
+        if (filaSeleccionada >= 0) {
+            // Obtenemos el ID de la primera columna (columna 0)
+            String id = jTable1.getValueAt(filaSeleccionada, 0).toString();
+
+            int confirmar = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres eliminar el camión ID: " + id + "?");
+
+            if (confirmar == JOptionPane.YES_OPTION) {
+                if (controlador.borrar(id)) {
+                    JOptionPane.showMessageDialog(this, "Registro eliminado de la base de datos");
+                    actualizarTabla();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al eliminar.");
+                }
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "Primero selecciona un camión de la tabla.");
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Primero selecciona un camión de la tabla.");
-    }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-    String patente = lblMatricula.getText();
-    String marca = lblMarca.getText();
-    String modelo = lblModelo.getText();
-    String anio = "2024"; 
-    String km = lblKM.getText();
-    String tipoMantenimiento = ComboBoxMantenimiento.getSelectedItem().toString();
-    
-    // Ahora el controlador recibirá los 6 parámetros correctamente
-    if (controlador.registrar(patente, marca, modelo, anio, km, tipoMantenimiento)) {
-        JOptionPane.showMessageDialog(this, "¡Registro guardado!");
-        actualizarTabla();
-    } else {
-        JOptionPane.showMessageDialog(this, "Error al guardar.");
-    }
-    }//GEN-LAST:event_btnAgregarActionPerformed
-
-    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-    String id = lblNumeracion.getText(); 
         String patente = lblMatricula.getText();
         String marca = lblMarca.getText();
         String modelo = lblModelo.getText();
-        String anio = "2024"; 
+        String anio = "2024";
         String km = lblKM.getText();
-        
+        String tipoMantenimiento = ComboBoxMantenimiento.getSelectedItem().toString();
+
+        // Ahora el controlador recibirá los 6 parámetros correctamente
+        if (controlador.registrar(patente, marca, modelo, anio, km, tipoMantenimiento)) {
+            JOptionPane.showMessageDialog(this, "¡Registro guardado!");
+            actualizarTabla();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al guardar.");
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        String id = lblNumeracion.getText();
+        String patente = lblMatricula.getText();
+        String marca = lblMarca.getText();
+        String modelo = lblModelo.getText();
+        String anio = "2024";
+        String km = lblKM.getText();
+
         // Capturamos el ComboBox
         String tipoMantenimiento = ComboBoxMantenimiento.getSelectedItem().toString();
 
@@ -393,100 +362,72 @@ public class ControlesCamiones extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-    // 1. Añadimos "tipo_mantenimiento" a las opciones
-        String[] opciones = {"patente", "marca", "modelo", "id_conductor", "tipo_mantenimiento"};
-        
-        // 2. Pedir al usuario que elija una categoría
-        String campo = (String) JOptionPane.showInputDialog(this, 
-                "Seleccione el criterio de búsqueda:", "Buscar Camión",
-                JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
-        
-        if (campo != null) {
-            // 3. Pedir el valor a buscar
-            String valor = JOptionPane.showInputDialog(this, "Ingrese el valor de " + campo + ":");
-            
-            if (valor != null && !valor.trim().isEmpty()) {
-                DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-                controlador.buscarEnTabla(modelo, campo, valor);
-                
-                if (modelo.getRowCount() == 0) {
-                    JOptionPane.showMessageDialog(this, "No se encontraron resultados.");
-                    actualizarTabla(); 
-                }
-            }
-        }
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void btnReflescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReflescarActionPerformed
-    // 1. Actualizamos la tabla de forma rápida y silenciosa
-        actualizarTabla(); 
-        
-        // 2. Limpiamos los campos de texto y restauramos sus placeholders (color gris)
-        lblNumeracion.setText("Numeracion");
-        lblNumeracion.setForeground(new java.awt.Color(204, 204, 204));
-        
-        lblMatricula.setText("Matricula");
-        lblMatricula.setForeground(new java.awt.Color(204, 204, 204));
-        
-        lblMarca.setText("Marca");
-        lblMarca.setForeground(new java.awt.Color(204, 204, 204));
-        
-        lblModelo.setText("Modelo");
-        lblModelo.setForeground(new java.awt.Color(204, 204, 204));
-        
-        lblNombreChofer.setText("Nombre del Chofer");
-        lblNombreChofer.setForeground(new java.awt.Color(204, 204, 204));
-        
-        lblKM.setText("Kilometros");
-        lblKM.setForeground(new java.awt.Color(204, 204, 204));
-        
-        // 3. Reiniciamos el ComboBox a su primera opción por defecto
-        ComboBoxMantenimiento.setSelectedIndex(0);
-    }//GEN-LAST:event_btnReflescarActionPerformed
-
-    private void ComboBoxMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxMantenimientoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ComboBoxMantenimientoActionPerformed
-
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-    // 1. Obtenemos el índice de la fila que el usuario seleccionó
+        // 1. Obtenemos el índice de la fila que el usuario seleccionó
         int fila = jTable1.getSelectedRow();
-        
+
         // 2. Verificamos que realmente haya seleccionado una fila válida
         if (fila >= 0) {
             // 3. Pasamos los datos de la tabla a las cajas de texto (las columnas empiezan en 0)
-            
+
             lblNumeracion.setText(jTable1.getValueAt(fila, 0).toString());
             lblNumeracion.setForeground(java.awt.Color.BLACK); // Pasamos a letra negra para quitar el efecto "Guia"
-            
+
             lblMatricula.setText(jTable1.getValueAt(fila, 1).toString());
             lblMatricula.setForeground(java.awt.Color.BLACK);
-            
+
             lblMarca.setText(jTable1.getValueAt(fila, 2).toString());
             lblMarca.setForeground(java.awt.Color.BLACK);
-            
+
             lblModelo.setText(jTable1.getValueAt(fila, 3).toString());
             lblModelo.setForeground(java.awt.Color.BLACK);
-            
+
             lblNombreChofer.setText(jTable1.getValueAt(fila, 4).toString());
             lblNombreChofer.setForeground(java.awt.Color.BLACK);
-            
+
             lblKM.setText(jTable1.getValueAt(fila, 5).toString());
             lblKM.setForeground(java.awt.Color.BLACK);
-            
+
             // 4. Para el ComboBox, tomamos el String de la columna 6 y le decimos que lo seleccione
             String mantenimiento = jTable1.getValueAt(fila, 6).toString();
             ComboBoxMantenimiento.setSelectedItem(mantenimiento);
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
-    
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // 1. Añadimos "tipo_mantenimiento" a las opciones
+        String[] opciones = {"patente", "marca", "modelo", "id_conductor", "tipo_mantenimiento"};
+
+        // 2. Pedir al usuario que elija una categoría
+        String campo = (String) JOptionPane.showInputDialog(this,
+            "Seleccione el criterio de búsqueda:", "Buscar Camión",
+            JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+
+        if (campo != null) {
+            // 3. Pedir el valor a buscar
+            String valor = JOptionPane.showInputDialog(this, "Ingrese el valor de " + campo + ":");
+
+            if (valor != null && !valor.trim().isEmpty()) {
+                DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+                controlador.buscarEnTabla(modelo, campo, valor);
+
+                if (modelo.getRowCount() == 0) {
+                    JOptionPane.showMessageDialog(this, "No se encontraron resultados.");
+                    actualizarTabla();
+                }
+            }
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -494,15 +435,21 @@ public class ControlesCamiones extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ControlesCamiones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ChoferesVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ChoferesVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ChoferesVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ChoferesVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ControlesCamiones().setVisible(true);
+                new ChoferesVista().setVisible(true);
             }
         });
     }

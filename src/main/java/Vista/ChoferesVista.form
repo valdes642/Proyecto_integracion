@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -23,25 +23,25 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="textKM" min="-2" max="-2" attributes="0"/>
-                                  <Component id="textMantenimiento" min="-2" max="-2" attributes="0"/>
+                                  <Component id="textKM" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="textMantenimiento" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="textNombreChofer" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="textModelo" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="textMarca" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="textMatricula" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="textNumeraciónCamion" min="-2" max="-2" attributes="0"/>
+                                  <Component id="textNumeraciónCamion" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                                       <Component id="lblNumeracion" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                                       <Component id="lblMatricula" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
                                       <Component id="lblMarca" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
@@ -49,7 +49,7 @@
                                       <Component id="lblNombreChofer" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                                       <Component id="lblKM" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="ComboBoxMantenimiento" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <Component id="ComboBoxMantenimiento" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -65,14 +65,14 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="557" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="214" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" pref="344" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="283" max="-2" attributes="0"/>
                       <Component id="btnReflescar" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="110" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -86,7 +86,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="textNumeraciónCamion" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblNumeracion" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
@@ -129,151 +129,25 @@
                           <Component id="btnBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" pref="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="17" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="textModelo">
+    <Component class="javax.swing.JButton" name="btnReflescar">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI Emoji" size="12" style="1"/>
+          <Font name="Segoe UI" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Modelo: "/>
+        <Property name="text" type="java.lang.String" value="Reflescar "/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReflescarActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="textNombreChofer">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI Emoji" size="12" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Nombre Chofer:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="textKM">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI Emoji" size="12" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="KM:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="textMantenimiento">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI Emoji" size="12" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Mantenimiento :"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="lblNumeracion">
-      <Properties>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="cc" red="cc" type="rgb"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Numeracion"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Stencil" size="24" style="2"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Controlador DE camiones"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="lblMatricula">
-      <Properties>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="cc" red="cc" type="rgb"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Matricula"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="lblMarca">
-      <Properties>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="cc" red="cc" type="rgb"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Marca"/>
-      </Properties>
-    </Component>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
-      <AuxValues>
-        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-      </AuxValues>
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-      <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
-          <Properties>
-            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="7" rowCount="10">
-                <Column editable="true" title="N&#xb0; Camione" type="java.lang.Object"/>
-                <Column editable="true" title="Matricula" type="java.lang.Object"/>
-                <Column editable="true" title="Marca" type="java.lang.Object"/>
-                <Column editable="true" title="Modelo" type="java.lang.Object"/>
-                <Column editable="true" title="Nom.Chofer" type="java.lang.Object"/>
-                <Column editable="true" title="Kilometros" type="java.lang.Object"/>
-                <Column editable="true" title="Matenimiento" type="java.lang.Object"/>
-              </Table>
-            </Property>
-            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-              <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title value="N&#xb0; Camione"/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title value="Matricula"/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title value="Marca"/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title value="Modelo"/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title value="Nom.Chofer"/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title value="Kilometros"/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title value="Matenimiento"/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-              </TableColumnModel>
-            </Property>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[600, 400]"/>
-            </Property>
-            <Property name="requestFocusEnabled" type="boolean" value="false"/>
-            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable1MouseClicked"/>
-          </Events>
-        </Component>
-      </SubComponents>
-    </Container>
     <Component class="javax.swing.JTextField" name="lblModelo">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -284,6 +158,22 @@
           <Dimension value="[64, 30]"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="ComboBoxMantenimiento">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="2">
+            <StringItem index="0" value="Preventivo"/>
+            <StringItem index="1" value="Correctivo"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComboBoxMantenimientoActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="btnEliminar">
       <Properties>
@@ -371,6 +261,70 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModificarActionPerformed"/>
       </Events>
     </Component>
+    <Component class="javax.swing.JLabel" name="textModelo">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI Emoji" size="12" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Modelo: "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="textNombreChofer">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI Emoji" size="12" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Nombre Chofer:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="textKM">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI Emoji" size="12" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="KM:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="textMantenimiento">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI Emoji" size="12" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Mantenimiento :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="lblNumeracion">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="cc" green="cc" red="cc" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Numeracion"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Stencil" size="24" style="2"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Controlador DE Choferes"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="lblMatricula">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="cc" green="cc" red="cc" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Matricula"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="lblMarca">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="cc" green="cc" red="cc" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Marca"/>
+      </Properties>
+    </Component>
     <Component class="javax.swing.JLabel" name="textMarca">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -379,6 +333,40 @@
         <Property name="text" type="java.lang.String" value="Marca:"/>
       </Properties>
     </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="jTable1">
+          <Properties>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+              <Table columnCount="7" rowCount="10">
+                <Column editable="true" title="N&#xb0; Camione" type="java.lang.Object"/>
+                <Column editable="true" title="Matricula" type="java.lang.Object"/>
+                <Column editable="true" title="Marca" type="java.lang.Object"/>
+                <Column editable="true" title="Modelo" type="java.lang.Object"/>
+                <Column editable="true" title="Nom.Chofer" type="java.lang.Object"/>
+                <Column editable="true" title="Kilometros" type="java.lang.Object"/>
+                <Column editable="true" title="Matenimiento" type="java.lang.Object"/>
+              </Table>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[600, 400]"/>
+            </Property>
+            <Property name="requestFocusEnabled" type="boolean" value="false"/>
+            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable1MouseClicked"/>
+          </Events>
+        </Component>
+      </SubComponents>
+    </Container>
     <Component class="javax.swing.JButton" name="btnBuscar">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -395,33 +383,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnReflescar">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="12" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Reflescar "/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReflescarActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="ComboBoxMantenimiento">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="2">
-            <StringItem index="0" value="Preventivo"/>
-            <StringItem index="1" value="Correctivo"/>
-          </StringArray>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComboBoxMantenimientoActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
