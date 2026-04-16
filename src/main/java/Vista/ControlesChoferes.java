@@ -376,14 +376,27 @@ public class ControlesChoferes extends javax.swing.JFrame {
 
     private void jTableChoferesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableChoferesMouseClicked
         int fila = jTableChoferes.getSelectedRow();
+        
         if (fila >= 0) {
+            // Columna 0: RUT
             lblRut.setText(jTableChoferes.getValueAt(fila, 0).toString());
             lblRut.setForeground(java.awt.Color.BLACK);
             
+            // Columna 1: Nombre
             lblNombre.setText(jTableChoferes.getValueAt(fila, 1).toString());
             lblNombre.setForeground(java.awt.Color.BLACK);
             
-            // Repetir para el resto de tus campos de texto...
+            // Columna 2: Apellidos
+            lblApellidos.setText(jTableChoferes.getValueAt(fila, 2).toString());
+            lblApellidos.setForeground(java.awt.Color.BLACK);
+            
+            // Columna 3: Licencia
+            lblLicencia.setText(jTableChoferes.getValueAt(fila, 3).toString());
+            lblLicencia.setForeground(java.awt.Color.BLACK);
+            
+            // Columna 4: Teléfono
+            lblTelefono.setText(jTableChoferes.getValueAt(fila, 4).toString());
+            lblTelefono.setForeground(java.awt.Color.BLACK);
         }
     }//GEN-LAST:event_jTableChoferesMouseClicked
 
