@@ -6,12 +6,8 @@ package Vista;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
-import java.util.List;
-import DAO.ChoferDAO;
-import DAO.CamionDAO;
-import Modelo.Chofer;
-import Modelo.Camion;
-import Modelo.Usuarios; // Asegúrate de importar el modelo de Usuarios
+import Controle.AsignacionControlador; // Importante: Importar el controlador
+import Modelo.Usuarios;
 
 /**
  * @author tomas
@@ -19,49 +15,36 @@ import Modelo.Usuarios; // Asegúrate de importar el modelo de Usuarios
 public class ControlesAsignacion extends javax.swing.JFrame {
 
     private DefaultTableModel modelo;
-    private Usuarios usuarioActual; // Para mantener la sesión activa
+    private Usuarios usuarioActual;
+    // 1. DECLARAR EL CONTROLADOR (Faltaba esta línea)
+    private AsignacionControlador controladorAsig = new AsignacionControlador();
 
-    // Constructor estándar
     public ControlesAsignacion() {
         initComponents();
         this.setLocationRelativeTo(null);
         configurarTabla();
-        cargarDatosDesdeBD();
+        refrescarTodo();
     }
 
-    // Constructor con sesión (El que debes usar desde el Menú)
     public ControlesAsignacion(Usuarios usuario) {
         this.usuarioActual = usuario;
         initComponents();
         this.setLocationRelativeTo(null);
         configurarTabla();
-        cargarDatosDesdeBD();
-        aplicarPermisos(); // Ejecuta la restricción de botones
+        refrescarTodo(); // Carga combos y tabla desde la BD
+        aplicarPermisos(); 
     }
 
     private void aplicarPermisos() {
         if (usuarioActual == null) return;
-        
         String rol = usuarioActual.getRol();
 
-        // Lógica de restricciones por Rol
-        switch (rol) {
-            case "Revision_Mantenimiento":
-                // Este rol no debería poder asignar conductores
-                btnAsignar.setEnabled(false);
-                ComboBoxConductor.setEnabled(false);
-                ComboBoxCamion.setEnabled(false);
-                // Opcional: Avisar al usuario
-                setTitle("Asignaciones - Modo Lectura");
-                break;
-                
-            case "Revision_Conductores":
-                // Este rol SI puede asignar, no bloqueamos nada
-                break;
-                
-            case "Admin":
-                // Acceso total
-                break;
+        // REQUISITO: Solo Admin puede asignar. Mantenimiento y Conductores solo ven.
+        if (rol.equals("Revision_Mantenimiento") || rol.equals("Revision_Conductores")) {
+            btnAsignar.setEnabled(false);
+            ComboBoxConductor.setEnabled(false);
+            ComboBoxCamion.setEnabled(false);
+            setTitle("Asignaciones - Modo Consulta (Solo Lectura)");
         }
     }
 
@@ -69,31 +52,22 @@ public class ControlesAsignacion extends javax.swing.JFrame {
         modelo = new DefaultTableModel(
             new Object [][] {},
             new String [] { "Conductor", "Patente del Camion" }
-        );
+        ) {
+            // Hacer que la tabla no sea editable directamente
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         jTableAsignacion.setModel(modelo);
     }
 
-    private void cargarDatosDesdeBD() {
+    private void refrescarTodo() {
         try {
-            ComboBoxConductor.removeAllItems();
-            ComboBoxCamion.removeAllItems();
-
-            ChoferDAO chDao = new ChoferDAO();
-            List<Chofer> listaChoferes = chDao.listar(); 
-            if (listaChoferes != null) {
-                for (Chofer ch : listaChoferes) {
-                    String itemChofer = ch.getRut() + " - " + ch.getNombre() + " " + ch.getApellidos();
-                    ComboBoxConductor.addItem(itemChofer);
-                }
-            }
-
-            CamionDAO camDao = new CamionDAO();
-            List<Camion> listaCamiones = camDao.listar();
-            if (listaCamiones != null) {
-                for (Camion cam : listaCamiones) {
-                    ComboBoxCamion.addItem(cam.getPatente());
-                }
-            }
+            // Carga los JComboBox usando el controlador (arquitectura limpia)
+            controladorAsig.cargarCombos(ComboBoxCamion, ComboBoxConductor);
+            // Carga la tabla con las asignaciones reales de la base de datos
+            controladorAsig.actualizarTabla(modelo);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar datos: " + e.getMessage());
         }
@@ -262,11 +236,10 @@ public class ControlesAsignacion extends javax.swing.JFrame {
     }//GEN-LAST:event_ComboBoxCamionActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-    // Pasamos el usuario de vuelta al menú para no perder la sesión
     Menu ventanaMenu = new Menu(usuarioActual); 
-    ventanaMenu.setVisible(true);
-    ventanaMenu.setLocationRelativeTo(null);
-    this.dispose();
+        ventanaMenu.setVisible(true);
+        ventanaMenu.setLocationRelativeTo(null);
+        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void jTableAsignacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAsignacionMouseClicked
@@ -275,19 +248,26 @@ public class ControlesAsignacion extends javax.swing.JFrame {
 
     private void btnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarActionPerformed
     if (ComboBoxConductor.getSelectedItem() == null || ComboBoxCamion.getSelectedItem() == null) {
-            JOptionPane.showMessageDialog(this, "Seleccione ambos campos.");
+            JOptionPane.showMessageDialog(this, "Por favor seleccione un conductor y un camión.");
             return;
         }
 
-        String conductor = ComboBoxConductor.getSelectedItem().toString();
-        String camion = ComboBoxCamion.getSelectedItem().toString();
+        String choferSeleccionado = ComboBoxConductor.getSelectedItem().toString();
+        String patente = ComboBoxCamion.getSelectedItem().toString();
 
-        modelo.addRow(new Object[]{conductor, camion});
-        JOptionPane.showMessageDialog(this, "Asignación realizada.");
+        // 2. LLAMAR AL CONTROLADOR PARA GUARDAR EN LA BD
+        if (controladorAsig.realizarAsignacion(patente, choferSeleccionado)) {
+            JOptionPane.showMessageDialog(this, "Asignación guardada con éxito en la base de datos.");
+            // 3. REFRESCAR TABLA PARA MOSTRAR CAMBIOS
+            controladorAsig.actualizarTabla(modelo); 
+        } else {
+            JOptionPane.showMessageDialog(this, "Error: El camión o el chofer ya podrían estar asignados.");
+        }
     }//GEN-LAST:event_btnAsignarActionPerformed
 
     private void btnReflescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReflescarActionPerformed
-    cargarDatosDesdeBD();
+    refrescarTodo();
+        JOptionPane.showMessageDialog(this, "Datos actualizados.");
     }//GEN-LAST:event_btnReflescarActionPerformed
 
     /**

@@ -77,38 +77,48 @@ public class ControlesCamiones extends javax.swing.JFrame {
     }
 
     public void aplicarPermisos(Usuarios usuario) {
-        if (usuario == null) return;
-        String rol = usuario.getRol();
+    String rol = usuario.getRol();
 
-        switch (rol) {
-            case "Admin":
-                // Acceso total
-                break;
+    switch (rol) {
+        case "Revision_Mantenimiento":
+            // SOLO puede cambiar el mantenimiento
+            btnAgregar.setEnabled(false);
+            btnEliminar.setEnabled(false);
+            btnModificar.setEnabled(true); // Necesario para guardar el cambio de estado
+            
+            // Bloquear datos estructurales
+            lblMatricula.setEditable(false);
+            lblMarca.setEditable(false);
+            lblModelo.setEditable(false);
+            lblKM.setEditable(false);
+            lblNombreChofer.setEditable(false);
+            
+            // UNICA ACCIÓN PERMITIDA:
+            ComboBoxMantenimiento.setEnabled(true); 
+            break;
 
-            case "Revision_Conductores":
-                btnAgregar.setEnabled(false);
-                btnEliminar.setEnabled(false);
-                btnModificar.setEnabled(true); // Para asignar chofer al camión
-                // Bloqueamos datos técnicos del camión
-                lblMatricula.setEditable(false);
-                lblMarca.setEditable(false);
-                lblModelo.setEditable(false);
-                lblKM.setEditable(false);
-                ComboBoxMantenimiento.setEnabled(false);
-                break;
-
-            case "Revision_Mantenimiento":
-                btnAgregar.setEnabled(false);
-                btnEliminar.setEnabled(false);
-                btnModificar.setEnabled(true); // Para cambiar estado de mantenimiento
-                // Bloqueamos todo lo que no sea mantenimiento
-                lblMatricula.setEditable(false);
-                lblMarca.setEditable(false);
-                lblModelo.setEditable(false);
-                lblNombreChofer.setEditable(false);
-                break;
-        }
+        case "Revision_Conductores":
+            // SOLO lectura total
+            btnAgregar.setEnabled(false);
+            btnEliminar.setEnabled(false);
+            btnModificar.setEnabled(false);
+            btnBuscar.setEnabled(true); // Permitir buscar pero no editar
+            
+            // Bloquear todos los campos
+            lblNumeracion.setEditable(false);
+            lblMatricula.setEditable(false);
+            lblMarca.setEditable(false);
+            lblModelo.setEditable(false);
+            lblKM.setEditable(false);
+            lblNombreChofer.setEditable(false);
+            ComboBoxMantenimiento.setEnabled(false);
+            break;
+            
+        case "Admin":
+            // Acceso total (se mantiene como estaba)
+            break;
     }
+}
     
     
     private void actualizarTabla() {
