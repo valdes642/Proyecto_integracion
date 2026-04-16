@@ -7,6 +7,7 @@ package Vista;
 import DAO.UsuarioDAO;
 import Modelo.Usuarios;
 import javax.swing.JOptionPane;
+import Controle.UsuarioControlador;
 /**
  *
  * @author tomas
@@ -143,32 +144,11 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-    // 1. Capturamos lo que el usuario escribió
     String user = txtUsuario.getText();
-    String pass = txtPassword.getText(); 
-
-    // Validamos que no intenten ingresar con el placeholder
-    if (user.equals("Usuario") || pass.equals("Contraseña") || user.isEmpty() || pass.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Atención", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    // 2. Usamos el DAO o Controlador para validar (usaré UsuarioDAO según tus imports)
-    DAO.UsuarioDAO dao = new DAO.UsuarioDAO();
-    Modelo.Usuarios usuarioEncontrado = dao.iniciarSesion(user, pass); 
-
-    // 3. Comprobamos si el usuario existe en la BD
-    if (usuarioEncontrado != null) {
-        // Login exitoso: Abrimos el MENU y le pasamos el usuario
-        Menu menuPrincipal = new Menu(usuarioEncontrado); 
-        menuPrincipal.setVisible(true);
-        menuPrincipal.setLocationRelativeTo(null); 
-        
-        this.dispose(); // Cerramos el Login
-    } else {
-        // Login fallido
-        JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error de Acceso", JOptionPane.ERROR_MESSAGE);
-    }
+    String pass = txtPassword.getText();
+    
+    UsuarioControlador control = new UsuarioControlador();
+    control.iniciarSesion(user, pass, this);
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**

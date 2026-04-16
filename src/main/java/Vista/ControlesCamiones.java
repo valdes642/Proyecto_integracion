@@ -77,55 +77,35 @@ public class ControlesCamiones extends javax.swing.JFrame {
     }
 
     public void aplicarPermisos(Usuarios usuario) {
+        if (usuario == null) return;
         String rol = usuario.getRol();
 
         switch (rol) {
             case "Admin":
-                // Tiene acceso a todo
-                btnAgregar.setEnabled(true);
-                btnEliminar.setEnabled(true);
-                btnModificar.setEnabled(true);
-                
-                lblMatricula.setEditable(true);
-                lblMarca.setEditable(true);
-                lblModelo.setEditable(true);
-                lblKM.setEditable(true);
-                lblNombreChofer.setEditable(true);
-                ComboBoxMantenimiento.setEnabled(true);
+                // Acceso total
                 break;
 
             case "Revision_Conductores":
-                // SÓLO puede modificar el chofer
                 btnAgregar.setEnabled(false);
                 btnEliminar.setEnabled(false);
-                btnModificar.setEnabled(true); 
-                
-                // Bloquear campos de datos del camión
+                btnModificar.setEnabled(true); // Para asignar chofer al camión
+                // Bloqueamos datos técnicos del camión
                 lblMatricula.setEditable(false);
                 lblMarca.setEditable(false);
                 lblModelo.setEditable(false);
                 lblKM.setEditable(false);
                 ComboBoxMantenimiento.setEnabled(false);
-                
-                // Permitir editar el nombre del chofer
-                lblNombreChofer.setEditable(true); 
                 break;
 
             case "Revision_Mantenimiento":
-                // SÓLO puede cambiar el mantenimiento
                 btnAgregar.setEnabled(false);
                 btnEliminar.setEnabled(false);
-                btnModificar.setEnabled(true);
-                
-                // Bloquear datos del camión y del conductor
+                btnModificar.setEnabled(true); // Para cambiar estado de mantenimiento
+                // Bloqueamos todo lo que no sea mantenimiento
                 lblMatricula.setEditable(false);
                 lblMarca.setEditable(false);
                 lblModelo.setEditable(false);
-                lblKM.setEditable(false);
                 lblNombreChofer.setEditable(false);
-                
-                // Permitir usar el ComboBox de Mantenimiento
-                ComboBoxMantenimiento.setEnabled(true); 
                 break;
         }
     }
@@ -168,8 +148,6 @@ public class ControlesCamiones extends javax.swing.JFrame {
         btnBuscar = new javax.swing.JButton();
         btnReflescar = new javax.swing.JButton();
         ComboBoxMantenimiento = new javax.swing.JComboBox<>();
-        btnChoferes = new javax.swing.JButton();
-        btnAsignar = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -308,26 +286,8 @@ public class ControlesCamiones extends javax.swing.JFrame {
             }
         });
 
-        btnChoferes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnChoferes.setText("Choferes");
-        btnChoferes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnChoferesActionPerformed(evt);
-            }
-        });
-
-        btnAsignar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnAsignar.setText("Asignar choferes");
-        btnAsignar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAsignarActionPerformed(evt);
-            }
-        });
-
-        btnExit.setBackground(new java.awt.Color(255, 0, 0));
-        btnExit.setFont(new java.awt.Font("NSimSun", 1, 12)); // NOI18N
-        btnExit.setForeground(new java.awt.Color(255, 255, 255));
-        btnExit.setText("EXIT");
+        btnExit.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnExit.setText("Volver");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExitActionPerformed(evt);
@@ -340,8 +300,8 @@ public class ControlesCamiones extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnBuscar)
@@ -373,17 +333,13 @@ public class ControlesCamiones extends javax.swing.JFrame {
                                     .addComponent(ComboBoxMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAsignar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnChoferes, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnReflescar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -392,13 +348,10 @@ public class ControlesCamiones extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnChoferes, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAsignar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnReflescar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnReflescar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
-                        .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -589,28 +542,11 @@ public class ControlesCamiones extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void btnChoferesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChoferesActionPerformed
-        // Le pasamos el usuario actual a la vista de Choferes
-        ControlesChoferes vistaChoferes = new ControlesChoferes(usuarioActual);
-        vistaChoferes.setVisible(true);
-        vistaChoferes.setLocationRelativeTo(null); 
-        this.dispose();
-    }//GEN-LAST:event_btnChoferesActionPerformed
-
-    private void btnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAsignarActionPerformed
-
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-    // 1. Creamos una nueva ventana de Login
-        Login ventanaLogin = new Login();
-        
-        // 2. La hacemos visible y la centramos en la pantalla
-        ventanaLogin.setVisible(true);
-        ventanaLogin.setLocationRelativeTo(null);
-        
-        // 3. Cerramos la ventana actual (ya sea Camiones, Choferes, etc.)
-        this.dispose();
+    Menu ventanaMenu = new Menu(usuarioActual);
+    ventanaMenu.setVisible(true);
+    ventanaMenu.setLocationRelativeTo(null);
+    this.dispose();
     }//GEN-LAST:event_btnExitActionPerformed
 
     
@@ -642,9 +578,7 @@ public class ControlesCamiones extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboBoxMantenimiento;
     private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnAsignar;
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnChoferes;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnModificar;

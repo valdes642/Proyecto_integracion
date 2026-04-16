@@ -15,10 +15,9 @@ public class Menu extends javax.swing.JFrame {
         this.usuarioLogueado = usuario; 
         initComponents();
         this.setLocationRelativeTo(null);
-        // Opcional: Podrías poner un JLabel que diga "Bienvenido: " + usuario.getNombre();
     }
     
-    // Constructor vacío por si necesitas previsualizar en el diseño
+    // Constructor vacío
     public Menu() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -37,6 +36,7 @@ public class Menu extends javax.swing.JFrame {
         btnCamiones = new javax.swing.JButton();
         btnChoferes = new javax.swing.JButton();
         btnAsignacion = new javax.swing.JButton();
+        btnCerrarSesion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -45,6 +45,7 @@ public class Menu extends javax.swing.JFrame {
 
         btnCamiones.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
         btnCamiones.setText("Camiones");
+        btnCamiones.setPreferredSize(new java.awt.Dimension(135, 50));
         btnCamiones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCamionesActionPerformed(evt);
@@ -67,53 +68,74 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
+        btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCerrarSesion.setText("Cerrar Sesion");
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(108, 108, 108)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnAsignacion)
-                    .addComponent(btnChoferes)
-                    .addComponent(jLabel1)
-                    .addComponent(btnCamiones))
-                .addContainerGap(146, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAsignacion, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnChoferes, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCamiones, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(106, 106, 106)
+                        .addComponent(btnCerrarSesion)))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(34, 34, 34)
-                .addComponent(btnCamiones, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(btnChoferes, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCamiones, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnAsignacion, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addComponent(btnChoferes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnAsignacion, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCamionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCamionesActionPerformed
-    ControlesCamiones v = new ControlesCamiones(this.usuarioLogueado);
-        v.setVisible(true);
-        this.dispose(); // Cerramos el menú al entrar a una gestión
+    ControlesCamiones vCamiones = new ControlesCamiones(usuarioLogueado);
+    vCamiones.setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_btnCamionesActionPerformed
 
     private void btnChoferesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChoferesActionPerformed
-    ControlesChoferes v = new ControlesChoferes(this.usuarioLogueado);
-        v.setVisible(true);
-        this.dispose();
+    ControlesChoferes vChoferes = new ControlesChoferes(usuarioLogueado);
+    vChoferes.setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_btnChoferesActionPerformed
 
     private void btnAsignacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignacionActionPerformed
-    ControlesAsignacion v = new ControlesAsignacion(this.usuarioLogueado);
-        v.setVisible(true);
-        this.dispose();
+    ControlesAsignacion vAsignacion = new ControlesAsignacion();
+    vAsignacion.setVisible(true);
+    this.dispose(); // Cierra el menú actual
     }//GEN-LAST:event_btnAsignacionActionPerformed
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+    Login login = new Login();
+    login.setVisible(true);
+    this.dispose(); // Cierra el menú actual
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -127,6 +149,7 @@ public class Menu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAsignacion;
     private javax.swing.JButton btnCamiones;
+    private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnChoferes;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables

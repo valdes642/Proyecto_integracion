@@ -74,53 +74,26 @@ public class ControlesChoferes extends javax.swing.JFrame {
     }
     
     public void aplicarPermisos(Usuarios usuario) {
-        if (usuario == null) return; // Por seguridad
+    if (usuario == null) return;
+    String rol = usuario.getRol();
 
-        String rol = usuario.getRol();
-
-        switch (rol) {
-            case "Admin":
-                // Tiene acceso total a crear, editar y borrar choferes
-                btnAgregar.setEnabled(true);
-                btnEliminar.setEnabled(true);
-                btnModificar.setEnabled(true);
-                
-                lblRut.setEditable(true);
-                lblNombre.setEditable(true);
-                lblApellidos.setEditable(true);
-                lblLicencia.setEditable(true);
-                lblTelefono.setEditable(true);
-                break;
-
-            case "Revision_Conductores":
-                // En esta ventana, solo puede VER a los choferes, pero NO modificar sus datos personales.
-                btnAgregar.setEnabled(false);
-                btnEliminar.setEnabled(false);
-                btnModificar.setEnabled(false); 
-                
-                // Bloquear campos de texto para que no escriba en ellos
-                lblRut.setEditable(false);
-                lblNombre.setEditable(false);
-                lblApellidos.setEditable(false);
-                lblLicencia.setEditable(false);
-                lblTelefono.setEditable(false);
-                break;
-
-            case "Revision_Mantenimiento":
-                // El de mantenimiento no tiene nada que hacer editando choferes, solo ve.
-                btnAgregar.setEnabled(false);
-                btnEliminar.setEnabled(false);
-                btnModificar.setEnabled(false);
-                
-                // Bloquear campos de texto
-                lblRut.setEditable(false);
-                lblNombre.setEditable(false);
-                lblApellidos.setEditable(false);
-                lblLicencia.setEditable(false);
-                lblTelefono.setEditable(false);
-                break;
+    if (!rol.equals("Admin")) {
+        // Si no es Admin, en esta vista usualmente solo se consulta
+        btnAgregar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        
+        lblRut.setEditable(false);
+        lblNombre.setEditable(false);
+        lblApellidos.setEditable(false);
+        lblLicencia.setEditable(false);
+        lblTelefono.setEditable(false);
+        
+        if (rol.equals("Revision_Mantenimiento")) {
+            setTitle("Consulta de Choferes - Modo Lectura");
         }
     }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -494,11 +467,10 @@ public class ControlesChoferes extends javax.swing.JFrame {
     }//GEN-LAST:event_lblRutActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-    // Le regresamos el usuario actual a la vista de Camiones
-        ControlesCamiones vistaCamiones = new ControlesCamiones(usuarioActual);
-        vistaCamiones.setVisible(true);
-        vistaCamiones.setLocationRelativeTo(null);
-        this.dispose();
+    Menu ventanaMenu = new Menu(usuarioActual);
+    ventanaMenu.setVisible(true);
+    ventanaMenu.setLocationRelativeTo(null);
+    this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     /**

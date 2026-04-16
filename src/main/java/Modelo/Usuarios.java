@@ -4,49 +4,41 @@
  */
 package Modelo;
 
-// Modelo para los Usuarios (Login)
 public class Usuarios {
-    private int id;
-    private String nombre;
-    private String clave;
+    private int idUsuario;
+    private String username;
+    private String password;
+    private String rol;
 
     public Usuarios() {}
-    public Usuarios(int id, String nombre, String clave) {
-        this.id = id;
-        this.nombre = nombre;
-        this.clave = clave;
+
+    // Getters y Setters
+    public int getIdUsuario() { return idUsuario; }
+    public void setIdUsuario(int idUsuario) { this.idUsuario = idUsuario; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getRol() { return rol; }
+    public void setRol(String rol) { this.rol = rol; }
+
+    public String getPassword() {
+        return password;
     }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
-    public String getClave() { return clave; }
-    public void setClave(String clave) { this.clave = clave; }
-}
-
-// Modelo para los Camiones
-public class Camion {
-    private String patente;
-    private String marca;
-
-    public Camion(String patente, String marca) {
-        this.patente = patente;
-        this.marca = marca;
+    public void setPassword(String password) {
+        this.password = password;
     }
-    public String getPatente() { return patente; }
+
     @Override
-    public String toString() { return patente; } // Para que se vea bien en el JComboBox
-}
-
-// Modelo para los Choferes
-public class Chofer {
-    private String rut;
-    private String nombre;
-
-    public Chofer(String rut, String nombre) {
-        this.rut = rut;
-        this.nombre = nombre;
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Usuarios{");
+        sb.append("idUsuario=").append(idUsuario);
+        sb.append(", username=").append(username);
+        sb.append(", password=").append(password);
+        sb.append(", rol=").append(rol);
+        sb.append('}');
+        return sb.toString();
     }
-    public String getNombre() { return nombre; }
-    @Override
-    public String toString() { return nombre; } // Para que se vea bien en el JComboBox
+    
+    
 }

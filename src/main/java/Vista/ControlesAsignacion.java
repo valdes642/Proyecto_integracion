@@ -5,25 +5,67 @@
 package Vista;
 
 import javax.swing.table.DefaultTableModel;
-import java.util.Vector;
+import javax.swing.JOptionPane;
+import java.util.List;
+import DAO.ChoferDAO;
+import DAO.CamionDAO;
+import Modelo.Chofer;
+import Modelo.Camion;
+import Modelo.Usuarios; // Asegúrate de importar el modelo de Usuarios
+
 /**
- *
  * @author tomas
  */
 public class ControlesAsignacion extends javax.swing.JFrame {
 
-    // Modelo de tabla definido globalmente para manipular los datos
-    DefaultTableModel modelo;
+    private DefaultTableModel modelo;
+    private Usuarios usuarioActual; // Para mantener la sesión activa
 
+    // Constructor estándar
     public ControlesAsignacion() {
         initComponents();
-        this.setLocationRelativeTo(null); // Centra la ventana
+        this.setLocationRelativeTo(null);
         configurarTabla();
-        cargarDatosPrueba(); // Esto simula la carga de datos desde una BD
+        cargarDatosDesdeBD();
+    }
+
+    // Constructor con sesión (El que debes usar desde el Menú)
+    public ControlesAsignacion(Usuarios usuario) {
+        this.usuarioActual = usuario;
+        initComponents();
+        this.setLocationRelativeTo(null);
+        configurarTabla();
+        cargarDatosDesdeBD();
+        aplicarPermisos(); // Ejecuta la restricción de botones
+    }
+
+    private void aplicarPermisos() {
+        if (usuarioActual == null) return;
+        
+        String rol = usuarioActual.getRol();
+
+        // Lógica de restricciones por Rol
+        switch (rol) {
+            case "Revision_Mantenimiento":
+                // Este rol no debería poder asignar conductores
+                btnAsignar.setEnabled(false);
+                ComboBoxConductor.setEnabled(false);
+                ComboBoxCamion.setEnabled(false);
+                // Opcional: Avisar al usuario
+                setTitle("Asignaciones - Modo Lectura");
+                break;
+                
+            case "Revision_Conductores":
+                // Este rol SI puede asignar, no bloqueamos nada
+                break;
+                
+            case "Admin":
+                // Acceso total
+                break;
+        }
     }
 
     private void configurarTabla() {
-        // Inicializamos el modelo con las columnas, pero con 0 filas
         modelo = new DefaultTableModel(
             new Object [][] {},
             new String [] { "Conductor", "Patente del Camion" }
@@ -31,18 +73,32 @@ public class ControlesAsignacion extends javax.swing.JFrame {
         jTableAsignacion.setModel(modelo);
     }
 
-    private void cargarDatosPrueba() {
-        // Limpiamos los combos que traen "Preventivo/Correctivo" por defecto en NetBeans
-        ComboBoxConductor.removeAllItems();
-        ComboBoxCamion.removeAllItems();
+    private void cargarDatosDesdeBD() {
+        try {
+            ComboBoxConductor.removeAllItems();
+            ComboBoxCamion.removeAllItems();
 
-        // Simulamos carga de datos (Aquí llamarías a tus controladores/DAO)
-        String[] conductores = {"Juan Perez", "Maria Garcia", "Carlos Lopez"};
-        String[] camiones = {"AB-123-CD", "XY-987-ZZ", "HT-442-KK"};
+            ChoferDAO chDao = new ChoferDAO();
+            List<Chofer> listaChoferes = chDao.listar(); 
+            if (listaChoferes != null) {
+                for (Chofer ch : listaChoferes) {
+                    String itemChofer = ch.getRut() + " - " + ch.getNombre() + " " + ch.getApellidos();
+                    ComboBoxConductor.addItem(itemChofer);
+                }
+            }
 
-        for (String c : conductores) ComboBoxConductor.addItem(c);
-        for (String ca : camiones) ComboBoxCamion.addItem(ca);
+            CamionDAO camDao = new CamionDAO();
+            List<Camion> listaCamiones = camDao.listar();
+            if (listaCamiones != null) {
+                for (Camion cam : listaCamiones) {
+                    ComboBoxCamion.addItem(cam.getPatente());
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar datos: " + e.getMessage());
+        }
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,9 +114,10 @@ public class ControlesAsignacion extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         ComboBoxCamion = new javax.swing.JComboBox<>();
         btnAsignar = new javax.swing.JButton();
-        btnExit = new javax.swing.JButton();
+        btnVolver = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableAsignacion = new javax.swing.JTable();
+        btnReflescar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,13 +150,11 @@ public class ControlesAsignacion extends javax.swing.JFrame {
             }
         });
 
-        btnExit.setBackground(new java.awt.Color(255, 0, 0));
-        btnExit.setFont(new java.awt.Font("NSimSun", 1, 12)); // NOI18N
-        btnExit.setForeground(new java.awt.Color(255, 255, 255));
-        btnExit.setText("EXIT");
-        btnExit.addActionListener(new java.awt.event.ActionListener() {
+        btnVolver.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExitActionPerformed(evt);
+                btnVolverActionPerformed(evt);
             }
         });
 
@@ -129,12 +184,27 @@ public class ControlesAsignacion extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableAsignacion);
 
+        btnReflescar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnReflescar.setText("Reflescar ");
+        btnReflescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReflescarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnVolver)
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnReflescar))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -151,12 +221,7 @@ public class ControlesAsignacion extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(ComboBoxCamion, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -164,24 +229,25 @@ public class ControlesAsignacion extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
+                        .addGap(7, 7, 7)
+                        .addComponent(btnReflescar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ComboBoxConductor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ComboBoxCamion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(26, 26, 26)
                         .addComponent(btnAsignar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -195,57 +261,39 @@ public class ControlesAsignacion extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ComboBoxCamionActionPerformed
 
-    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        // 1. Creamos una nueva ventana de Login
-        Login ventanaLogin = new Login();
-
-        // 2. La hacemos visible y la centramos en la pantalla
-        ventanaLogin.setVisible(true);
-        ventanaLogin.setLocationRelativeTo(null);
-
-        // 3. Cerramos la ventana actual (ya sea Camiones, Choferes, etc.)
-        this.dispose();
-    }//GEN-LAST:event_btnExitActionPerformed
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+    // Pasamos el usuario de vuelta al menú para no perder la sesión
+    Menu ventanaMenu = new Menu(usuarioActual); 
+    ventanaMenu.setVisible(true);
+    ventanaMenu.setLocationRelativeTo(null);
+    this.dispose();
+    }//GEN-LAST:event_btnVolverActionPerformed
 
     private void jTableAsignacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAsignacionMouseClicked
 
     }//GEN-LAST:event_jTableAsignacionMouseClicked
 
     private void btnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarActionPerformed
-    String conductor = ComboBoxConductor.getSelectedItem().toString();
-    String camion = ComboBoxCamion.getSelectedItem().toString();
+    if (ComboBoxConductor.getSelectedItem() == null || ComboBoxCamion.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Seleccione ambos campos.");
+            return;
+        }
 
-    // 1. Validar que no estén vacíos
-    if (conductor.isEmpty() || camion.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Debe seleccionar ambos campos");
-        return;
-    }
+        String conductor = ComboBoxConductor.getSelectedItem().toString();
+        String camion = ComboBoxCamion.getSelectedItem().toString();
 
-    // 2. Agregar a la tabla visualmente
-    DefaultTableModel modeloTabla = (DefaultTableModel) jTableAsignacion.getModel();
-    modeloTabla.addRow(new Object[]{conductor, camion});
-
-    // 3. Lógica de Base de Datos (Opcional según tu proyecto)
-    // controlador.guardarAsignacion(conductor, camion);
-    
-    javax.swing.JOptionPane.showMessageDialog(this, "Asignación exitosa");
+        modelo.addRow(new Object[]{conductor, camion});
+        JOptionPane.showMessageDialog(this, "Asignación realizada.");
     }//GEN-LAST:event_btnAsignarActionPerformed
+
+    private void btnReflescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReflescarActionPerformed
+    cargarDatosDesdeBD();
+    }//GEN-LAST:event_btnReflescarActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ControlesAsignacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ControlesAsignacion().setVisible(true);
@@ -257,7 +305,8 @@ public class ControlesAsignacion extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> ComboBoxCamion;
     private javax.swing.JComboBox<String> ComboBoxConductor;
     private javax.swing.JButton btnAsignar;
-    private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnReflescar;
+    private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
