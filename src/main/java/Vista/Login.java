@@ -16,8 +16,9 @@ public class Login extends javax.swing.JFrame {
 
     public Login() {
         initComponents();
-        this.setLocationRelativeTo(null); // Centrar siempre al iniciar
         configurarPlaceholders();
+        
+        Vista.GestorVistas.configurarAtajosGlobales(this, btnIngresar, true);
     }
 
     private void configurarPlaceholders() {
@@ -57,6 +58,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -4,96 +4,91 @@
  */
 package Vista;
 
+import Controle.ChoferControlador;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import Controle.ChoferControlador;
 import Modelo.Usuarios;
 
+
 public class ControlesChoferes extends javax.swing.JFrame {
-    
+
     ChoferControlador controlador = new ChoferControlador();
-    
-    // Variable para guardar el usuario que navega por la app
     private Usuarios usuarioActual;
 
-    // 1. Constructor vacío por defecto
     public ControlesChoferes() {
         initComponents();
-        this.setLocationRelativeTo(null);
-        actualizarTabla();
-        configurarPlaceholders();
+        prepararVista();
     }
 
-    // 2. NUEVO Constructor que recibe el usuario para aplicar los permisos
     public ControlesChoferes(Usuarios usuario) {
-        this.usuarioActual = usuario; // Guardamos el usuario
+        this.usuarioActual = usuario;
         initComponents();
-        this.setLocationRelativeTo(null);
+        prepararVista();
         actualizarTabla();
         configurarPlaceholders();
-        
-        // Ejecutamos los permisos
-        aplicarPermisos(usuarioActual);
+        aplicarPermisos(); 
     }
 
-    // --- EFECTO PLACEHOLDER PARA CHOFERES ---
-    private void configurarPlaceholders() {
-        javax.swing.JTextField[] campos = {
-            lblRut, lblNombre, lblApellidos, lblLicencia, lblTelefono
-        };
+    private void prepararVista() {
+        GestorVistas.configurarVentanaBase(this, "Gestión de Choferes - Hirata");
+        // Enter para agregar, Escape para volver al menú
+        GestorVistas.configurarAtajosGlobales(this, btnAgregar, false); 
+        GestorVistas.configurarTabla(tablaChoferes);
+    }
 
+    public void aplicarPermisos() {
+        if (usuarioActual == null) return;
+        String rol = usuarioActual.getRol();
+
+        if (!rol.equals("Admin")) {
+            btnAgregar.setEnabled(false);
+            btnEliminar.setEnabled(false);
+            btnModificar.setEnabled(false);
+            
+            lblRut.setEditable(false);
+            lblNombre.setEditable(false);
+            lblApellidos.setEditable(false);
+            lblLicencia.setEditable(false);
+            lblTelefono.setEditable(false);
+            
+            if (rol.equals("Revision_Mantenimiento") || rol.equals("Revision_Conductores")) {
+                setTitle("Consulta de Choferes - Modo Lectura");
+            }
+        }
+    }
+
+    private void actualizarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) tablaChoferes.getModel();
+        controlador.cargarTabla(modelo); 
+    }
+
+    private void configurarPlaceholders() {
+        javax.swing.JTextField[] campos = {lblRut, lblNombre, lblApellidos, lblLicencia, lblTelefono};
         for (javax.swing.JTextField campo : campos) {
             String textoGuia = campo.getText();
-
             campo.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
                     if (campo.getText().equals(textoGuia)) {
                         campo.setText("");
-                        campo.setForeground(Color.BLACK); 
+                        campo.setForeground(Color.BLACK);
                     }
                 }
-
                 @Override
                 public void focusLost(FocusEvent e) {
                     if (campo.getText().isEmpty()) {
-                        campo.setForeground(new Color(204, 204, 204)); 
+                        campo.setForeground(new Color(204, 204, 204));
                         campo.setText(textoGuia);
                     }
                 }
             });
         }
     }
-    
-    private void actualizarTabla() {
-        DefaultTableModel modelo = (DefaultTableModel) jTableChoferes.getModel();
-        controlador.cargarTabla(modelo); 
-    }
-    
-    public void aplicarPermisos(Usuarios usuario) {
-    if (usuario == null) return;
-    String rol = usuario.getRol();
 
-    if (!rol.equals("Admin")) {
-        // Si no es Admin, en esta vista usualmente solo se consulta
-        btnAgregar.setEnabled(false);
-        btnEliminar.setEnabled(false);
-        btnModificar.setEnabled(false);
-        
-        lblRut.setEditable(false);
-        lblNombre.setEditable(false);
-        lblApellidos.setEditable(false);
-        lblLicencia.setEditable(false);
-        lblTelefono.setEditable(false);
-        
-        if (rol.equals("Revision_Mantenimiento")) {
-            setTitle("Consulta de Choferes - Modo Lectura");
-        }
-    }
-}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -119,7 +114,7 @@ public class ControlesChoferes extends javax.swing.JFrame {
         lblApellidos = new javax.swing.JTextField();
         textMarca = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableChoferes = new javax.swing.JTable();
+        tablaChoferes = new javax.swing.JTable();
         btnBuscar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
@@ -203,7 +198,7 @@ public class ControlesChoferes extends javax.swing.JFrame {
         textMarca.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
         textMarca.setText("Apellidos:");
 
-        jTableChoferes.setModel(new javax.swing.table.DefaultTableModel(
+        tablaChoferes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -220,14 +215,14 @@ public class ControlesChoferes extends javax.swing.JFrame {
                 "Rut", "Nombre", "Apellidos", "Licencia", "Telefono"
             }
         ));
-        jTableChoferes.setPreferredSize(new java.awt.Dimension(600, 400));
-        jTableChoferes.setRequestFocusEnabled(false);
-        jTableChoferes.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaChoferes.setPreferredSize(new java.awt.Dimension(600, 400));
+        tablaChoferes.setRequestFocusEnabled(false);
+        tablaChoferes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableChoferesMouseClicked(evt);
+                tablaChoferesMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTableChoferes);
+        jScrollPane1.setViewportView(tablaChoferes);
 
         btnBuscar.setBackground(new java.awt.Color(153, 153, 153));
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -333,31 +328,20 @@ public class ControlesChoferes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnReflescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReflescarActionPerformed
-        // 1. Actualizamos la tabla de forma rápida y silenciosa
-        actualizarTabla(); 
-        
-        // 2. Limpiamos los campos de texto y restauramos sus placeholders (color gris)
-        lblRut.setText("RUT");
-        lblRut.setForeground(new java.awt.Color(204, 204, 204));
-        
+        GestorVistas.limpiarCampos(this.getContentPane());
+        // Restauramos los textos de guía
+        lblRut.setText("Rut");
         lblNombre.setText("Nombre");
-        lblNombre.setForeground(new java.awt.Color(204, 204, 204));
-        
         lblApellidos.setText("Apellidos");
-        lblApellidos.setForeground(new java.awt.Color(204, 204, 204));
-        
         lblLicencia.setText("Licencia");
-        lblLicencia.setForeground(new java.awt.Color(204, 204, 204));
-        
-        lblTelefono.setText("Teléfono");
-        lblTelefono.setForeground(new java.awt.Color(204, 204, 204));
-
+        lblTelefono.setText("Telefono");
+        actualizarTabla();
     }//GEN-LAST:event_btnReflescarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        int filaSeleccionada = jTableChoferes.getSelectedRow();
+        int filaSeleccionada = tablaChoferes.getSelectedRow();
         if (filaSeleccionada >= 0) {
-            String rut = jTableChoferes.getValueAt(filaSeleccionada, 0).toString();
+            String rut = tablaChoferes.getValueAt(filaSeleccionada, 0).toString();
             int confirmar = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres eliminar al chofer RUT: " + rut + "?");
             
             if (confirmar == JOptionPane.YES_OPTION) {
@@ -407,31 +391,31 @@ public class ControlesChoferes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
-    private void jTableChoferesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableChoferesMouseClicked
-        int fila = jTableChoferes.getSelectedRow();
+    private void tablaChoferesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaChoferesMouseClicked
+        int fila = tablaChoferes.getSelectedRow();
         
         if (fila >= 0) {
             // Columna 0: RUT
-            lblRut.setText(jTableChoferes.getValueAt(fila, 0).toString());
+            lblRut.setText(tablaChoferes.getValueAt(fila, 0).toString());
             lblRut.setForeground(java.awt.Color.BLACK);
             
             // Columna 1: Nombre
-            lblNombre.setText(jTableChoferes.getValueAt(fila, 1).toString());
+            lblNombre.setText(tablaChoferes.getValueAt(fila, 1).toString());
             lblNombre.setForeground(java.awt.Color.BLACK);
             
             // Columna 2: Apellidos
-            lblApellidos.setText(jTableChoferes.getValueAt(fila, 2).toString());
+            lblApellidos.setText(tablaChoferes.getValueAt(fila, 2).toString());
             lblApellidos.setForeground(java.awt.Color.BLACK);
             
             // Columna 3: Licencia
-            lblLicencia.setText(jTableChoferes.getValueAt(fila, 3).toString());
+            lblLicencia.setText(tablaChoferes.getValueAt(fila, 3).toString());
             lblLicencia.setForeground(java.awt.Color.BLACK);
             
             // Columna 4: Teléfono
-            lblTelefono.setText(jTableChoferes.getValueAt(fila, 4).toString());
+            lblTelefono.setText(tablaChoferes.getValueAt(fila, 4).toString());
             lblTelefono.setForeground(java.awt.Color.BLACK);
         }
-    }//GEN-LAST:event_jTableChoferesMouseClicked
+    }//GEN-LAST:event_tablaChoferesMouseClicked
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // 1. Cambiamos las opciones por los atributos reales de los choferes
@@ -448,7 +432,7 @@ public class ControlesChoferes extends javax.swing.JFrame {
 
             if (valor != null && !valor.trim().isEmpty()) {
                 // Aquí usamos la tabla correcta de choferes
-                DefaultTableModel modelo = (DefaultTableModel) jTableChoferes.getModel();
+                DefaultTableModel modelo = (DefaultTableModel) tablaChoferes.getModel();
                 
                 // IMPORTANTE: Asegúrate de que el 'controlador' que estás usando aquí 
                 // sea la instancia de 'ChoferControlador'.
@@ -518,12 +502,12 @@ public class ControlesChoferes extends javax.swing.JFrame {
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableChoferes;
     private javax.swing.JTextField lblApellidos;
     private javax.swing.JTextField lblLicencia;
     private javax.swing.JTextField lblNombre;
     private javax.swing.JTextField lblRut;
     private javax.swing.JTextField lblTelefono;
+    private javax.swing.JTable tablaChoferes;
     private javax.swing.JLabel textMarca;
     private javax.swing.JLabel textMatricula;
     private javax.swing.JLabel textModelo;

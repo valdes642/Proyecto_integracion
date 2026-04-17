@@ -4,66 +4,47 @@
  */
 package Vista;
 
+import Controle.AsignacionControlador;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
-import Controle.AsignacionControlador; 
 import Modelo.Usuarios;
-import java.awt.Color;
 
 public class ControlesAsignacion extends javax.swing.JFrame {
 
-    private DefaultTableModel modelo;
+    // Instancia del controlador
+    AsignacionControlador controlador = new AsignacionControlador();
     private Usuarios usuarioActual;
-    // Usamos el nombre de tu controlador externo
-    private AsignacionControlador controladorAsig = new AsignacionControlador();
 
-   public ControlesAsignacion(Usuarios usuario) {
-    this.usuarioActual = usuario; // Guardamos quien entró
-    initComponents();
-    this.setLocationRelativeTo(null);
-    configurarTabla();
-    refrescarTodo(); 
-    aplicarPermisos(); // <--- ESTO ACTIVA EL BLOQUEO DE BOTONES
+    // Constructor vacío
+    public ControlesAsignacion() {
+        initComponents();
+        prepararPantalla();
     }
 
-    private void aplicarPermisos() {
-    if (usuarioActual == null) return;
-    
-    String rol = usuarioActual.getRol();
-
-    // Si el rol es de revisión, bloqueamos los controles
-    if (rol.equalsIgnoreCase("Revision_Conductores") || rol.equalsIgnoreCase("Revision_Mantenimiento")) {
-        btnAsignar.setEnabled(false); 
-        ComboBoxConductor.setEnabled(false);
-        ComboBoxCamion.setEnabled(false);
-        
-        // Feedback visual en el título
-        this.setTitle("Asignaciones - MODO CONSULTA (Solo Lectura)");
-    }
+    // Constructor principal que recibe el usuario desde el Menú
+    public ControlesAsignacion(Usuarios usuario) {
+        this.usuarioActual = usuario;
+        initComponents();
+        prepararPantalla();
+        actualizarTabla();
     }
 
-                                            
+    // Centraliza la configuración visual y de teclado
+    private void prepararPantalla() {
+        GestorVistas.configurarVentanaBase(this, "Asignación de Viajes - Hirata");
+        GestorVistas.configurarAtajosGlobales(this, btnAsignar, false);
+        GestorVistas.configurarTabla(tablaAsignaciones);
 
-    private void configurarTabla() {
-        modelo = new DefaultTableModel(
-            new Object [][] {},
-            new String [] { "Conductor", "Patente del Camion" }
-        ) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; // Bloquea edición directa en celdas
-            }
-        };
-        jTableAsignacion.setModel(modelo);
+        // CAMBIO AQUÍ: El controlador usa un solo método para ambos combos
+        controlador.cargarCombos(ComboBoxCamion, ComboBoxConductor);
     }
 
-    private void refrescarTodo() {
-        try {
-            controladorAsig.cargarCombos(ComboBoxCamion, ComboBoxConductor);
-            controladorAsig.actualizarTabla(modelo);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar datos: " + e.getMessage());
-        }    }
+    // 2. Corregir el método de actualización de tabla
+    private void actualizarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) tablaAsignaciones.getModel();
+        // CAMBIO AQUÍ: El método en el controlador se llama actualizarTabla, no cargarTabla
+        controlador.actualizarTabla(modelo);
+    }
 
     
     /**
@@ -83,7 +64,7 @@ public class ControlesAsignacion extends javax.swing.JFrame {
         btnAsignar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableAsignacion = new javax.swing.JTable();
+        tablaAsignaciones = new javax.swing.JTable();
         btnReflescar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -125,7 +106,7 @@ public class ControlesAsignacion extends javax.swing.JFrame {
             }
         });
 
-        jTableAsignacion.setModel(new javax.swing.table.DefaultTableModel(
+        tablaAsignaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -142,14 +123,14 @@ public class ControlesAsignacion extends javax.swing.JFrame {
                 "Conductor", "Patente del Camion"
             }
         ));
-        jTableAsignacion.setPreferredSize(new java.awt.Dimension(600, 400));
-        jTableAsignacion.setRequestFocusEnabled(false);
-        jTableAsignacion.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaAsignaciones.setPreferredSize(new java.awt.Dimension(600, 400));
+        tablaAsignaciones.setRequestFocusEnabled(false);
+        tablaAsignaciones.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableAsignacionMouseClicked(evt);
+                tablaAsignacionesMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTableAsignacion);
+        jScrollPane1.setViewportView(tablaAsignaciones);
 
         btnReflescar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnReflescar.setText("Reflescar ");
@@ -214,7 +195,7 @@ public class ControlesAsignacion extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addComponent(btnAsignar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
@@ -229,54 +210,53 @@ public class ControlesAsignacion extends javax.swing.JFrame {
     }//GEN-LAST:event_ComboBoxCamionActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-    Menu ventanaMenu = new Menu(usuarioActual); 
-        ventanaMenu.setVisible(true);
-        ventanaMenu.setLocationRelativeTo(null);
-        this.dispose();
+    GestorVistas.volverAlMenu(this);
     }//GEN-LAST:event_btnVolverActionPerformed
 
-    private void jTableAsignacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAsignacionMouseClicked
+    private void tablaAsignacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAsignacionesMouseClicked
 
-    }//GEN-LAST:event_jTableAsignacionMouseClicked
+    }//GEN-LAST:event_tablaAsignacionesMouseClicked
 
     private void btnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarActionPerformed
     if (usuarioActual == null) return;
 
-    String patente = ComboBoxCamion.getSelectedItem().toString();
-    String chofer = ComboBoxConductor.getSelectedItem().toString();
+        Object itemCamion = ComboBoxCamion.getSelectedItem();
+        Object itemChofer = ComboBoxConductor.getSelectedItem();
 
-    // Chamada corrixida co nome exacto do método do controlador
-    boolean exito = controladorAsig.realizarAsignacionSegura(patente, chofer, usuarioActual);
+        if (itemCamion == null || itemChofer == null) {
+            JOptionPane.showMessageDialog(this, "Seleccione un camión y un chofer.");
+            return;
+        }
 
-    if (exito) {
-        JOptionPane.showMessageDialog(this, "Asignación gardada con éxito.");
-        refrescarTodo();
-    } else {
-        JOptionPane.showMessageDialog(this, "Erro: Non tes permisos ou o camión xa está ocupado.");
-    }
+        String patente = itemCamion.toString();
+        String chofer = itemChofer.toString();
+
+        // Llamada al controlador para guardar la asignación
+        boolean exito = controlador.realizarAsignacionSegura(patente, chofer, usuarioActual);
+
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Asignación guardada con éxito.");
+            actualizarTabla(); // Refresca la tabla para ver el nuevo registro
+        } else {
+            JOptionPane.showMessageDialog(this, "Error: El camión ya está ocupado o no tiene permisos.");
+        }
     }//GEN-LAST:event_btnAsignarActionPerformed
 
     private void btnReflescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReflescarActionPerformed
-    refrescarTodo();
-        JOptionPane.showMessageDialog(this, "Datos actualizados.");
+    actualizarTabla();
+    // CAMBIO AQUÍ: Usar el método correcto del controlador
+    controlador.cargarCombos(ComboBoxCamion, ComboBoxConductor);
+    JOptionPane.showMessageDialog(this, "Datos actualizados.");
     }//GEN-LAST:event_btnReflescarActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            Modelo.Usuarios usuarioPrueba = new Modelo.Usuarios();
-            
-            // Corrixido: Usar setUsername en lugar de setUsuario
-            usuarioPrueba.setUsername("TestAdmin"); 
-            usuarioPrueba.setRol("Revision_Conductores"); 
-            
-            new ControlesAsignacion(usuarioPrueba).setVisible(true);
-        }
-    });
-}
+        java.awt.EventQueue.invokeLater(() -> {
+            new ControlesAsignacion().setVisible(true);
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboBoxCamion;
@@ -288,6 +268,6 @@ public class ControlesAsignacion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableAsignacion;
+    private javax.swing.JTable tablaAsignaciones;
     // End of variables declaration//GEN-END:variables
 }

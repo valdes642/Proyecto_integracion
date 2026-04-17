@@ -14,13 +14,14 @@ public class Menu extends javax.swing.JFrame {
     public Menu(Usuarios usuario) {
         this.usuarioLogueado = usuario; 
         initComponents();
-        this.setLocationRelativeTo(null);
+        // Usamos el gestor para la configuración básica (Título y centrado)
+        GestorVistas.configurarVentanaBase(this, "Menú Principal - Sistema Hirata");
     }
     
-    // Constructor vacío
+    // Constructor vacío (útil para diseño o pruebas)
     public Menu() {
         initComponents();
-        this.setLocationRelativeTo(null);
+        GestorVistas.configurarVentanaBase(this, "Menú Principal - Sistema Hirata");
     }
 
     /**
@@ -114,28 +115,19 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCamionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCamionesActionPerformed
-    ControlesCamiones vCamiones = new ControlesCamiones(usuarioLogueado);
-    vCamiones.setVisible(true);
-    this.dispose();
+    GestorVistas.abrirVista(this, new ControlesCamiones(usuarioLogueado));  
     }//GEN-LAST:event_btnCamionesActionPerformed
 
     private void btnChoferesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChoferesActionPerformed
-    ControlesChoferes vChoferes = new ControlesChoferes(usuarioLogueado);
-    vChoferes.setVisible(true);
-    this.dispose();
+    GestorVistas.abrirVista(this, new ControlesChoferes(usuarioLogueado));
     }//GEN-LAST:event_btnChoferesActionPerformed
 
     private void btnAsignacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignacionActionPerformed
-    // Pasamos o usuario que iniciou sesión para activar os bloqueos
-    ControlesAsignacion vAsignacion = new ControlesAsignacion(usuarioLogueado);
-    vAsignacion.setVisible(true);
-    this.dispose();
+   GestorVistas.abrirVista(this, new ControlesAsignacion(usuarioLogueado));
     }//GEN-LAST:event_btnAsignacionActionPerformed
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
-    Login login = new Login();
-    login.setVisible(true);
-    this.dispose(); // Cierra el menú actual
+    GestorVistas.abrirVista(this, new Login());
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     /**
