@@ -9,12 +9,12 @@ import DAO.CamionDAO;
 import DAO.ChoferDAO;
 import Modelo.Camion;
 import Modelo.Chofer;
+import Modelo.Usuarios; // <--- AGREGA ESTA LÍNEA QUE FALTA
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 
 public class AsignacionControlador {
-    // Instancias de los DAOs necesarios para interactuar con la base de datos
     private AsignacionDAO daoAsig = new AsignacionDAO();
     private CamionDAO daoCam = new CamionDAO();
     private ChoferDAO daoChof = new ChoferDAO();
@@ -55,16 +55,19 @@ public class AsignacionControlador {
     /**
      * Procesa la asignación en la base de datos.
      */
-    public boolean realizarAsignacion(String patente, String itemSeleccionado) {
-        if (patente == null || itemSeleccionado == null) return false;
-        
-        try {
-            // Extraemos solo el RUT (lo que está antes del guion) del String seleccionado
-            String rut = itemSeleccionado.split(" - ")[0].trim(); 
-            return daoAsig.asignar(patente, rut);
-        } catch (Exception e) {
-            System.err.println("Error al procesar el RUT: " + e.getMessage());
-            return false;
-        }
+    public boolean realizarAsignacionSegura(String patente, String itemSeleccionado, Usuarios usuario) {
+    // Bloqueo de seguridade para Condutores e Mantemento
+    String rol = usuario.getRol();
+    if (rol.equalsIgnoreCase("Revision_Conductores") || rol.equalsIgnoreCase("Revision_Mantenimiento")) {
+        return false; 
+    }
+    
+    try {
+        String rut = itemSeleccionado.split(" - ")[0].trim(); 
+        return daoAsig.asignar(patente, rut);
+    } catch (Exception e) {
+        System.err.println("Error: " + e.getMessage());
+        return false;
+    }
     }
 }

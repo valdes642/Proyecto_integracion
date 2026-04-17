@@ -11,8 +11,8 @@ import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import Modelo.Usuarios;
+
 /**
- *
  * @author tomas
  */
 public class ControlesCamiones extends javax.swing.JFrame {
@@ -23,52 +23,96 @@ public class ControlesCamiones extends javax.swing.JFrame {
     // Variable global para guardar el usuario que inició sesión
     private Usuarios usuarioActual;
 
-    // Constructor vacío por si lo necesitas
+    // Constructor vacío por defecto
     public ControlesCamiones() {
         initComponents();
         actualizarTabla();
         configurarPlaceholders();
+        btnReflescarLimpiar();
     }
     
+    // Constructor principal que recibe el usuario
     public ControlesCamiones(Usuarios usuario) {
         this.usuarioActual = usuario;
         initComponents();
+        this.setLocationRelativeTo(null);
         actualizarTabla();
         configurarPlaceholders();
         
         // Aplicamos los permisos justo después de cargar la pantalla
-        aplicarPermisos(usuario); 
+        aplicarPermisos(); 
     }
     
+    // --- MÉTODO DE PERMISOS SEGÚN ROL ---
+    public void aplicarPermisos() {
+    if (usuarioActual == null) return;
+    String rol = usuarioActual.getRol();
+
+    switch (rol) {
+        case "Admin":
+            btnAgregar.setEnabled(true);
+            btnEliminar.setEnabled(true);
+            btnModificar.setEnabled(true);
+            habilitarEdicionCampos(true);
+            ComboBoxMantenimiento.setEnabled(true);
+            break;
+
+        case "Revision_Mantenimiento":
+            // Bloqueamos acciones de creación/borrado
+            btnAgregar.setEnabled(false);
+            btnEliminar.setEnabled(false);
+            
+            // EL TRUCO: Permitimos modificar pero bloqueamos los textos
+            btnModificar.setEnabled(true); 
+            habilitarEdicionCampos(false); // No pueden escribir en las cajas
+            
+            // Solo dejamos libre el combo de estado
+            ComboBoxMantenimiento.setEnabled(true); 
+            this.setTitle("Gestión Camiones - Solo Mantenimiento");
+            break; 
+
+        case "Revision_Conductores":
+            btnAgregar.setEnabled(false);
+            btnEliminar.setEnabled(false);
+            btnModificar.setEnabled(false);
+            habilitarEdicionCampos(false);
+            ComboBoxMantenimiento.setEnabled(false);
+            this.setTitle("Gestión Camiones - Consulta");
+            break;
+    }
+}
+
+    private void habilitarEdicionCampos(boolean estado) {
+        lblNumeracion.setEditable(false); // El ID nunca debe editarse manualmente
+        lblMatricula.setEditable(estado);
+        lblMarca.setEditable(estado);
+        lblModelo.setEditable(estado);
+        lblKM.setEditable(estado);
+        lblNombreChofer.setEditable(estado);
+    }
     
-    
-    // --- MÉTODO MAGICO PARA LOS EDIT TEXT ---
     private void configurarPlaceholders() {
-        // Metemos todos tus campos en una lista para no repetir codigo
         javax.swing.JTextField[] campos = {
             lblNumeracion, lblMatricula, lblMarca, lblModelo, 
             lblNombreChofer, lblKM
         };
 
         for (javax.swing.JTextField campo : campos) {
-            // Guardamos el nombre original que pusiste en NetBeans como "guia"
             String textoGuia = campo.getText();
 
             campo.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    // Si el usuario hace clic y está el texto de guia, lo borramos
                     if (campo.getText().equals(textoGuia)) {
                         campo.setText("");
-                        campo.setForeground(Color.BLACK); // Color de letra normal al escribir
+                        campo.setForeground(Color.BLACK);
                     }
                 }
 
                 @Override
                 public void focusLost(FocusEvent e) {
-                    // Si el usuario se sale y no escribió nada, ponemos la guia de nuevo
                     if (campo.getText().isEmpty()) {
-                        campo.setForeground(new Color(204, 204, 204)); // Color gris
+                        campo.setForeground(new Color(204, 204, 204));
                         campo.setText(textoGuia);
                     }
                 }
@@ -76,67 +120,29 @@ public class ControlesCamiones extends javax.swing.JFrame {
         }
     }
 
-    public void aplicarPermisos(Usuarios usuario) {
-    if (usuario == null) return;
-    String rol = usuario.getRol();
-
-    switch (rol) {
-        case "Admin":
-            // Acceso total: Puede agregar, eliminar y modificar todos los campos
-            btnAgregar.setEnabled(true);
-            btnEliminar.setEnabled(true);
-            btnModificar.setEnabled(true);
-            lblMatricula.setEditable(true);
-            lblMarca.setEditable(true);
-            lblModelo.setEditable(true);
-            lblKM.setEditable(true);
-            lblNombreChofer.setEditable(true);
-            ComboBoxMantenimiento.setEnabled(true);
-            break;
-
-        case "Revision_Mantenimiento":
-            // REQUISITO: Solo cambiar el tipo de mantenimiento
-            btnAgregar.setEnabled(false);
-            btnEliminar.setEnabled(false);
-            btnModificar.setEnabled(true); // Se habilita para guardar el cambio de estado
-            
-            // Bloquear datos técnicos del camión y chofer
-            lblNumeracion.setEditable(false);
-            lblMatricula.setEditable(false);
-            lblMarca.setEditable(false);
-            lblModelo.setEditable(false);
-            lblKM.setEditable(false);
-            lblNombreChofer.setEditable(false);
-            
-            // Única acción permitida: cambiar el combo box
-            ComboBoxMantenimiento.setEnabled(true); 
-            break;
-
-        case "Revision_Conductores":
-            // REQUISITO: Solo ver información, no modificar nada
-            btnAgregar.setEnabled(false);
-            btnEliminar.setEnabled(false);
-            btnModificar.setEnabled(false);
-            btnBuscar.setEnabled(true); // Se deja habilitado para facilitar la consulta
-            
-            // Bloquear todos los campos para evitar ediciones visuales
-            lblNumeracion.setEditable(false);
-            lblMatricula.setEditable(false);
-            lblMarca.setEditable(false);
-            lblModelo.setEditable(false);
-            lblKM.setEditable(false);
-            lblNombreChofer.setEditable(false);
-            ComboBoxMantenimiento.setEnabled(false);
-            break;
-    }
-}
-    
-    
     private void actualizarTabla() {
-    DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-    // El controlador se encarga de pedir todo al DAO y llenar el modelo
-    controlador.cargarTabla(modelo); 
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        controlador.cargarTabla(modelo); 
     }
+    
+    private void btnReflescarLimpiar() {
+    lblNumeracion.setText("Numeracion");
+    lblMatricula.setText("Matricula");
+    lblMarca.setText("Marca");
+    lblModelo.setText("Modelo");
+    lblNombreChofer.setText("Nombre del Chofer");
+    lblKM.setText("Kilometros");
+    ComboBoxMantenimiento.setSelectedIndex(0);
+    
+    // Resetear colores de placeholder
+    Color placeholderColor = new Color(204, 204, 204);
+    lblNumeracion.setForeground(placeholderColor);
+    lblMatricula.setForeground(placeholderColor);
+    lblMarca.setForeground(placeholderColor);
+    lblModelo.setForeground(placeholderColor);
+    lblNombreChofer.setForeground(placeholderColor);
+    lblKM.setForeground(placeholderColor);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -417,114 +423,114 @@ public class ControlesCamiones extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-    int filaSeleccionada = jTable1.getSelectedRow();
-    
-    if (filaSeleccionada >= 0) {
-        // Obtenemos el ID de la primera columna (columna 0)
-        String id = jTable1.getValueAt(filaSeleccionada, 0).toString();
-        
-        int confirmar = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres eliminar el camión ID: " + id + "?");
-        
-        if (confirmar == JOptionPane.YES_OPTION) {
-            if (controlador.borrar(id)) {
-                JOptionPane.showMessageDialog(this, "Registro eliminado de la base de datos");
-                actualizarTabla();
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al eliminar.");
-            }
+    String rol = usuarioActual.getRol();
+        if (!rol.equalsIgnoreCase("Admin")) {
+            JOptionPane.showMessageDialog(this, "Solo el Administrador puede eliminar registros.");
+            return;
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Primero selecciona un camión de la tabla.");
-    }
+
+        int filaSeleccionada = jTable1.getSelectedRow();
+        if (filaSeleccionada >= 0) {
+            String id = jTable1.getValueAt(filaSeleccionada, 0).toString();
+            int confirmar = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres eliminar el camión ID: " + id + "?");
+            if (confirmar == JOptionPane.YES_OPTION) {
+                if (controlador.borrar(id)) {
+                    JOptionPane.showMessageDialog(this, "Registro eliminado");
+                    actualizarTabla();
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona una fila.");
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-    String patente = lblMatricula.getText();
-    String marca = lblMarca.getText();
-    String modelo = lblModelo.getText();
-    String anio = "2024"; 
-    String km = lblKM.getText();
-    String tipoMantenimiento = ComboBoxMantenimiento.getSelectedItem().toString();
-    
-    // Ahora el controlador recibirá los 6 parámetros correctamente
-    if (controlador.registrar(patente, marca, modelo, anio, km, tipoMantenimiento)) {
-        JOptionPane.showMessageDialog(this, "¡Registro guardado!");
-        actualizarTabla();
-    } else {
-        JOptionPane.showMessageDialog(this, "Error al guardar.");
-    }
-    }//GEN-LAST:event_btnAgregarActionPerformed
+    String rol = usuarioActual.getRol();
+        if (!rol.equalsIgnoreCase("Admin")) {
+            JOptionPane.showMessageDialog(this, "No tienes permisos para registrar nuevos camiones.");
+            return;
+        }
 
-    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-    String id = lblNumeracion.getText(); 
         String patente = lblMatricula.getText();
         String marca = lblMarca.getText();
         String modelo = lblModelo.getText();
         String anio = "2024"; 
         String km = lblKM.getText();
+        String tipoMantenimiento = ComboBoxMantenimiento.getSelectedItem().toString();
         
-        // Capturamos el ComboBox
+        if (controlador.registrar(patente, marca, modelo, anio, km, tipoMantenimiento)) {
+            JOptionPane.showMessageDialog(this, "¡Registro guardado!");
+            actualizarTabla();
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+    String rol = usuarioActual.getRol();
+    
+    // Solo Admin y Mantenimiento entran aquí
+    if (rol.equalsIgnoreCase("Admin") || rol.equalsIgnoreCase("Revision_Mantenimiento")) {
+        
+        String id = lblNumeracion.getText();
+        
+        // Validación de seguridad: Que haya algo seleccionado
+        if (id.equals("Numeracion") || id.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Seleccione un camión de la tabla primero.");
+            return;
+        }
+
+        // Capturamos los datos (si es Mantenimiento, enviará los mismos que ya estaban)
+        String patente = lblMatricula.getText();
+        String marca = lblMarca.getText();
+        String modelo = lblModelo.getText();
+        String anio = "2024"; // Mantengo tu valor por defecto
+        String km = lblKM.getText();
         String tipoMantenimiento = ComboBoxMantenimiento.getSelectedItem().toString();
 
-        // Añadimos tipoMantenimiento al final
+        // Ejecutamos la actualización a través del controlador
         if (controlador.editar(id, patente, marca, modelo, anio, km, tipoMantenimiento)) {
-            JOptionPane.showMessageDialog(this, "Datos actualizados correctamente");
+            JOptionPane.showMessageDialog(this, "Estado actualizado con éxito.");
             actualizarTabla();
         } else {
-            JOptionPane.showMessageDialog(this, "No se pudo modificar el registro.");
+            JOptionPane.showMessageDialog(this, "Error al procesar la actualización.");
         }
+        
+    } else {
+        JOptionPane.showMessageDialog(this, "No tienes permisos para realizar cambios.");
+    }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-    // 1. Añadimos "tipo_mantenimiento" a las opciones
-        String[] opciones = {"patente", "marca", "modelo", "id_conductor", "tipo_mantenimiento"};
-        
-        // 2. Pedir al usuario que elija una categoría
-        String campo = (String) JOptionPane.showInputDialog(this, 
-                "Seleccione el criterio de búsqueda:", "Buscar Camión",
-                JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+    String[] opciones = {"patente", "marca", "modelo", "tipo_mantenimiento"};
+        String campo = (String) JOptionPane.showInputDialog(this, "Buscar por:", "Buscar", JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
         
         if (campo != null) {
-            // 3. Pedir el valor a buscar
-            String valor = JOptionPane.showInputDialog(this, "Ingrese el valor de " + campo + ":");
-            
+            String valor = JOptionPane.showInputDialog(this, "Ingrese el valor:");
             if (valor != null && !valor.trim().isEmpty()) {
-                DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-                controlador.buscarEnTabla(modelo, campo, valor);
-                
-                if (modelo.getRowCount() == 0) {
-                    JOptionPane.showMessageDialog(this, "No se encontraron resultados.");
-                    actualizarTabla(); 
-                }
+                DefaultTableModel modeloT = (DefaultTableModel) jTable1.getModel();
+                controlador.buscarEnTabla(modeloT, campo, valor);
             }
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnReflescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReflescarActionPerformed
-    // 1. Actualizamos la tabla de forma rápida y silenciosa
-        actualizarTabla(); 
-        
-        // 2. Limpiamos los campos de texto y restauramos sus placeholders (color gris)
-        lblNumeracion.setText("Numeracion");
-        lblNumeracion.setForeground(new java.awt.Color(204, 204, 204));
-        
-        lblMatricula.setText("Matricula");
-        lblMatricula.setForeground(new java.awt.Color(204, 204, 204));
-        
-        lblMarca.setText("Marca");
-        lblMarca.setForeground(new java.awt.Color(204, 204, 204));
-        
-        lblModelo.setText("Modelo");
-        lblModelo.setForeground(new java.awt.Color(204, 204, 204));
-        
-        lblNombreChofer.setText("Nombre del Chofer");
-        lblNombreChofer.setForeground(new java.awt.Color(204, 204, 204));
-        
-        lblKM.setText("Kilometros");
-        lblKM.setForeground(new java.awt.Color(204, 204, 204));
-        
-        // 3. Reiniciamos el ComboBox a su primera opción por defecto
-        ComboBoxMantenimiento.setSelectedIndex(0);
+    // Limpiar textos
+    lblNumeracion.setText("Numeracion");
+    lblMatricula.setText("Matricula");
+    lblMarca.setText("Marca");
+    lblModelo.setText("Modelo");
+    lblNombreChofer.setText("Nombre del Chofer");
+    lblKM.setText("Kilometros");
+    
+    // Resetear colores a gris (efecto placeholder)
+    Color gris = new Color(204, 204, 204);
+    lblNumeracion.setForeground(gris);
+    lblMatricula.setForeground(gris);
+    lblMarca.setForeground(gris);
+    lblModelo.setForeground(gris);
+    lblNombreChofer.setForeground(gris);
+    lblKM.setForeground(gris);
+    
+    actualizarTabla();
     }//GEN-LAST:event_btnReflescarActionPerformed
 
     private void ComboBoxMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxMantenimientoActionPerformed

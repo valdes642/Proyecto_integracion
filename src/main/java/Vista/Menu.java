@@ -126,9 +126,10 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnChoferesActionPerformed
 
     private void btnAsignacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignacionActionPerformed
-    ControlesAsignacion vAsignacion = new ControlesAsignacion();
+    // Pasamos o usuario que iniciou sesión para activar os bloqueos
+    ControlesAsignacion vAsignacion = new ControlesAsignacion(usuarioLogueado);
     vAsignacion.setVisible(true);
-    this.dispose(); // Cierra el menú actual
+    this.dispose();
     }//GEN-LAST:event_btnAsignacionActionPerformed
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed

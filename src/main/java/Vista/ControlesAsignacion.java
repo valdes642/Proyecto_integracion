@@ -6,61 +6,52 @@ package Vista;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
-import Controle.AsignacionControlador; // Importante: Importar el controlador
+import Controle.AsignacionControlador; 
 import Modelo.Usuarios;
+import java.awt.Color;
 
-/**
- * @author tomas
- */
 public class ControlesAsignacion extends javax.swing.JFrame {
 
     private DefaultTableModel modelo;
     private Usuarios usuarioActual;
-    // 1. DECLARAR EL CONTROLADOR (Faltaba esta línea)
+    // Usamos el nombre de tu controlador externo
     private AsignacionControlador controladorAsig = new AsignacionControlador();
 
-    public ControlesAsignacion() {
-        initComponents();
-        this.setLocationRelativeTo(null);
-        configurarTabla();
-        refrescarTodo();
-    }
-
-    public ControlesAsignacion(Usuarios usuario) {
-        this.usuarioActual = usuario;
-        initComponents();
-        this.setLocationRelativeTo(null);
-        configurarTabla();
-        refrescarTodo(); // Carga combos y tabla desde la BD
-        aplicarPermisos(); 
+   public ControlesAsignacion(Usuarios usuario) {
+    this.usuarioActual = usuario; // Guardamos quien entró
+    initComponents();
+    this.setLocationRelativeTo(null);
+    configurarTabla();
+    refrescarTodo(); 
+    aplicarPermisos(); // <--- ESTO ACTIVA EL BLOQUEO DE BOTONES
     }
 
     private void aplicarPermisos() {
     if (usuarioActual == null) return;
+    
     String rol = usuarioActual.getRol();
 
-    // REQUISITO: Conductores y Mantenimiento solo pueden ver (Modo Consulta)
-    if (rol.equals("Revision_Conductores") || rol.equals("Revision_Mantenimiento")) {
-        btnAsignar.setEnabled(false); // Deshabilitar el botón de guardado
+    // Si el rol es de revisión, bloqueamos los controles
+    if (rol.equalsIgnoreCase("Revision_Conductores") || rol.equalsIgnoreCase("Revision_Mantenimiento")) {
+        btnAsignar.setEnabled(false); 
         ComboBoxConductor.setEnabled(false);
         ComboBoxCamion.setEnabled(false);
         
-        // Cambio visual del título para indicar el modo lectura
-        setTitle("Asignaciones - Modo Consulta (Solo Lectura)");
-        
-        // Si tienes botones de eliminar/editar en la tabla, también deben deshabilitarse
+        // Feedback visual en el título
+        this.setTitle("Asignaciones - MODO CONSULTA (Solo Lectura)");
     }
-}
+    }
+
+                                            
 
     private void configurarTabla() {
         modelo = new DefaultTableModel(
             new Object [][] {},
             new String [] { "Conductor", "Patente del Camion" }
         ) {
-            // Hacer que la tabla no sea editable directamente
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false;
+                return false; // Bloquea edición directa en celdas
             }
         };
         jTableAsignacion.setModel(modelo);
@@ -68,14 +59,12 @@ public class ControlesAsignacion extends javax.swing.JFrame {
 
     private void refrescarTodo() {
         try {
-            // Carga los JComboBox usando el controlador (arquitectura limpia)
             controladorAsig.cargarCombos(ComboBoxCamion, ComboBoxConductor);
-            // Carga la tabla con las asignaciones reales de la base de datos
             controladorAsig.actualizarTabla(modelo);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar datos: " + e.getMessage());
-        }
-    }
+        }    }
+
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -251,22 +240,20 @@ public class ControlesAsignacion extends javax.swing.JFrame {
     }//GEN-LAST:event_jTableAsignacionMouseClicked
 
     private void btnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarActionPerformed
-    if (ComboBoxConductor.getSelectedItem() == null || ComboBoxCamion.getSelectedItem() == null) {
-            JOptionPane.showMessageDialog(this, "Por favor seleccione un conductor y un camión.");
-            return;
-        }
+    if (usuarioActual == null) return;
 
-        String choferSeleccionado = ComboBoxConductor.getSelectedItem().toString();
-        String patente = ComboBoxCamion.getSelectedItem().toString();
+    String patente = ComboBoxCamion.getSelectedItem().toString();
+    String chofer = ComboBoxConductor.getSelectedItem().toString();
 
-        // 2. LLAMAR AL CONTROLADOR PARA GUARDAR EN LA BD
-        if (controladorAsig.realizarAsignacion(patente, choferSeleccionado)) {
-            JOptionPane.showMessageDialog(this, "Asignación guardada con éxito en la base de datos.");
-            // 3. REFRESCAR TABLA PARA MOSTRAR CAMBIOS
-            controladorAsig.actualizarTabla(modelo); 
-        } else {
-            JOptionPane.showMessageDialog(this, "Error: El camión o el chofer ya podrían estar asignados.");
-        }
+    // Chamada corrixida co nome exacto do método do controlador
+    boolean exito = controladorAsig.realizarAsignacionSegura(patente, chofer, usuarioActual);
+
+    if (exito) {
+        JOptionPane.showMessageDialog(this, "Asignación gardada con éxito.");
+        refrescarTodo();
+    } else {
+        JOptionPane.showMessageDialog(this, "Erro: Non tes permisos ou o camión xa está ocupado.");
+    }
     }//GEN-LAST:event_btnAsignarActionPerformed
 
     private void btnReflescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReflescarActionPerformed
@@ -278,12 +265,18 @@ public class ControlesAsignacion extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ControlesAsignacion().setVisible(true);
-            }
-        });
-    }
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            Modelo.Usuarios usuarioPrueba = new Modelo.Usuarios();
+            
+            // Corrixido: Usar setUsername en lugar de setUsuario
+            usuarioPrueba.setUsername("TestAdmin"); 
+            usuarioPrueba.setRol("Revision_Conductores"); 
+            
+            new ControlesAsignacion(usuarioPrueba).setVisible(true);
+        }
+    });
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboBoxCamion;

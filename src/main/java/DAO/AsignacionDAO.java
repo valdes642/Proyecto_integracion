@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AsignacionDAO {
-    // Método existente para guardar la asignación
     public boolean asignar(String patente, String rutChofer) {
+        // El SQL asocia al conductor con el camión
         String sql = "UPDATE camion SET id_conductor = (SELECT id_conductor FROM conductor WHERE rut = ?) WHERE patente = ?";
         try (Connection con = Conexion.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
