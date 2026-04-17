@@ -67,15 +67,15 @@ INSERT INTO conductor (rut, nombre_completo, apellidos, licencia, telefono) VALU
 
 -- Camiones
 INSERT INTO camion (patente, marca, modelo, anio, kilometraje, id_conductor) VALUES 
-('XY-ZZ-99', 'Scania', 'R500', 2021, 12000, 3),
+('XY-ZZ-99', 'Scania', 'R500', 2021, 1200, 3),
 ('KJ-PT-45', 'Freightliner', 'Cascadia', 2023, 500, 4),
-('TR-QW-11', 'Isuzu', 'Forward', 2019, 45600, 5),
+('TR-QW-11', 'Isuzu', 'Forward', 2019, 4560, 5),
 ('LL-PP-22', 'Volvo', 'VM 330', 2022, 2100, 1),
-('AB-CD-12', 'Mercedes-Benz', 'Actros', 2020, 85000, 6),
-('FG-HI-34', 'Scania', 'G410', 2022, 32000, 7),
+('AB-CD-12', 'Mercedes-Benz', 'Actros', 2020, 8500, 6),
+('FG-HI-34', 'Scania', 'G410', 2022, 3200, 7),
 ('JK-LM-56', 'Volvo', 'FH16', 2024, 1500, 8),
-('NP-QR-78', 'Ford', 'Cargo 1723', 2018, 120000, 9),
-('ST-UV-90', 'Kenworth', 'T680', 2021, 54000, 10);
+('NP-QR-78', 'Ford', 'Cargo 1723', 2018, 1200, 9),
+('ST-UV-90', 'Kenworth', 'T680', 2021, 5400, 10);
 
 -- Registros de mantenimiento
 INSERT INTO mantenimiento (id_camion, fecha_mantenimiento, tipo_mantenimiento, descripcion, kilometraje_al_momento) VALUES 
