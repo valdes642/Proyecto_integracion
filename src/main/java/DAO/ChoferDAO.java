@@ -22,7 +22,6 @@ public class ChoferDAO {
 
     public List<Chofer> listar() {
         List<Chofer> lista = new ArrayList<>();
-        // Cambiamos 'choferes' por 'conductor'
         String sql = "SELECT * FROM conductor"; 
         try {
             con = Conexion.getConnection(); 
@@ -31,7 +30,6 @@ public class ChoferDAO {
             while (rs.next()) {
                 Chofer c = new Chofer();
                 c.setRut(rs.getString("rut"));
-                // Mapeamos el nombre_completo de la BD al setNombre de Java
                 c.setNombre(rs.getString("nombre_completo")); 
                 c.setApellidos(rs.getString("apellidos"));
                 c.setLicencia(rs.getString("licencia"));
@@ -98,12 +96,9 @@ public class ChoferDAO {
 
     public List<Chofer> buscar(String campo, String valor) {
         List<Chofer> lista = new ArrayList<>();
-        
-        // Traducimos el campo "nombre" de Java al "nombre_completo" de SQL para que el buscador no falle
         if (campo.equals("nombre")) {
             campo = "nombre_completo";
         }
-        
         String sql = "SELECT * FROM conductor WHERE " + campo + " LIKE ?";
         try {
             con = Conexion.getConnection();
@@ -123,5 +118,23 @@ public class ChoferDAO {
             System.err.println("Error al buscar chofer: " + e.getMessage());
         }
         return lista;
+    }
+
+    // --- NUEVO MÉTODO: Validar chofer duplicado por nombre y apellidos ---
+    public boolean existeChoferPorNombre(String nombre, String apellidos) {
+        String sql = "SELECT COUNT(*) FROM conductor WHERE nombre_completo = ? AND apellidos = ?"; 
+        try {
+            con = Conexion.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, nombre);
+            ps.setString(2, apellidos);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Retorna true si ya existe
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al validar existencia del chofer: " + e.getMessage());
+        }
+        return false;
     }
 }

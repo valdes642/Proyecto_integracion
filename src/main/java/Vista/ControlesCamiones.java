@@ -459,22 +459,42 @@ public class ControlesCamiones extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
     String rol = usuarioActual.getRol();
-        if (!rol.equalsIgnoreCase("Admin")) {
-            JOptionPane.showMessageDialog(this, "No tienes permisos para registrar nuevos camiones.");
-            return;
-        }
+    if (!rol.equalsIgnoreCase("Admin")) {
+        JOptionPane.showMessageDialog(this, "No tienes permisos para registrar nuevos camiones.");
+        return;
+    }
 
-        String patente = lblMatricula.getText();
-        String marca = lblMarca.getText();
-        String modelo = lblModelo.getText();
-        String anio = "2024"; 
-        String km = lblKM.getText();
-        String tipoMantenimiento = ComboBoxMantenimiento.getSelectedItem().toString();
-        
-        if (controlador.registrar(patente, marca, modelo, anio, km, tipoMantenimiento)) {
-            JOptionPane.showMessageDialog(this, "¡Registro guardado!");
-            actualizarTabla();
+    String patente = lblMatricula.getText().trim();
+    String marca = lblMarca.getText().trim();
+    String modelo = lblModelo.getText().trim();
+    String anio = "2024"; 
+    String kmTexto = lblKM.getText().trim();
+    String tipoMantenimiento = ComboBoxMantenimiento.getSelectedItem().toString();
+    
+    // --- NUEVO: Validación de kilometraje y alerta de 5000 KM ---
+    try {
+        int kilometraje = Integer.parseInt(kmTexto);
+        if (kilometraje >= 5000) {
+            JOptionPane.showMessageDialog(this, 
+                "ALERTA: El camión registra " + kilometraje + " KM. Se ha desencadenado el proceso de mantenimiento preventivo.", 
+                "Alerta de Mantenimiento", 
+                JOptionPane.WARNING_MESSAGE);
         }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, 
+            "Por favor, ingrese un número válido en el campo de kilometraje.", 
+            "Error de Formato", 
+            JOptionPane.ERROR_MESSAGE);
+        return; // Detiene la ejecución si el KM no es un número válido
+    }
+
+    // Llamada al controlador para guardar en la base de datos
+    if (controlador.registrar(patente, marca, modelo, anio, kmTexto, tipoMantenimiento)) {
+        JOptionPane.showMessageDialog(this, "¡Registro guardado exitosamente en la base de datos!");
+        actualizarTabla(); // Refresca la tabla visualmente
+    } else {
+        JOptionPane.showMessageDialog(this, "Error al guardar el registro en la base de datos.", "Error de Guardado", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed

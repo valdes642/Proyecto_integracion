@@ -359,19 +359,37 @@ public class ControlesChoferes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        String rut = lblRut.getText();
-        String nombre = lblNombre.getText();
-        String apellidos = lblApellidos.getText();
-        String licencia = lblLicencia.getText();
-        String telefono = lblTelefono.getText();
-        
-        // AQUÍ QUITAMOS LOS COMENTARIOS
-        if (controlador.registrar(rut, nombre, apellidos, licencia, telefono)) {
-            JOptionPane.showMessageDialog(this, "¡Chofer guardado!");
-            actualizarTabla();
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al guardar.");
-        }
+    // Obtenemos los textos y quitamos espacios en blanco al inicio y final
+    String rut = lblRut.getText().trim();
+    String nombre = lblNombre.getText().trim();
+    String apellidos = lblApellidos.getText().trim();
+    String licencia = lblLicencia.getText().trim();
+    String telefono = lblTelefono.getText().trim();
+    
+    // Validación de seguridad por si envían los placeholders vacíos
+    if (rut.equals("Rut") || nombre.equals("Nombre") || apellidos.equals("Apellidos")) {
+        JOptionPane.showMessageDialog(this, "Por favor, complete los datos reales del chofer.");
+        return;
+    }
+
+    // --- NUEVO: Validamos si el chofer ya existe ---
+    DAO.ChoferDAO daoChofer = new DAO.ChoferDAO(); 
+    
+    if (daoChofer.existeChoferPorNombre(nombre, apellidos)) {
+        JOptionPane.showMessageDialog(this, 
+            "No se puede registrar: Ya existe un chofer con el nombre '" + nombre + " " + apellidos + "'.", 
+            "Chofer Duplicado", 
+            JOptionPane.ERROR_MESSAGE);
+        return; // Detiene la ejecución aquí para que no guarde
+    }
+    
+    // Si no existe, procedemos a guardar usando el controlador
+    if (controlador.registrar(rut, nombre, apellidos, licencia, telefono)) {
+        JOptionPane.showMessageDialog(this, "¡Chofer guardado!");
+        actualizarTabla();
+    } else {
+        JOptionPane.showMessageDialog(this, "Error al guardar.");
+    }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
