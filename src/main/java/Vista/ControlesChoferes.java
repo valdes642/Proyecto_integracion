@@ -39,26 +39,23 @@ public class ControlesChoferes extends javax.swing.JFrame {
         GestorVistas.configurarTabla(tablaChoferes);
     }
 
-    public void aplicarPermisos() {
-        if (usuarioActual == null) return;
-        String rol = usuarioActual.getRol();
+   public void aplicarPermisos() {
+    if (usuarioActual == null) return;
+    String rol = usuarioActual.getRol();
 
-        if (!rol.equals("Admin")) {
-            btnAgregar.setEnabled(false);
-            btnEliminar.setEnabled(false);
-            btnModificar.setEnabled(false);
-            
-            lblRut.setEditable(false);
-            lblNombre.setEditable(false);
-            lblApellidos.setEditable(false);
-            lblLicencia.setEditable(false);
-            lblTelefono.setEditable(false);
-            
-            if (rol.equals("Revision_Mantenimiento") || rol.equals("Revision_Conductores")) {
-                setTitle("Consulta de Choferes - Modo Lectura");
-            }
-        }
+    // Si es Chofer o Mantención, se les apagan los botones y no pueden escribir
+    if (rol.equalsIgnoreCase("Revision_Conductores") || rol.equalsIgnoreCase("Revision_Mantenimiento")) {
+        btnAgregar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        
+        lblRut.setEditable(false);
+        lblNombre.setEditable(false);
+        lblApellidos.setEditable(false);
+        lblLicencia.setEditable(false);
+        lblTelefono.setEditable(false);
     }
+}
 
     private void actualizarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) tablaChoferes.getModel();
