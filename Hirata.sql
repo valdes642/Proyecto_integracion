@@ -92,8 +92,8 @@ INSERT INTO mantenimiento (id_camion, fecha_mantenimiento, tipo_mantenimiento, d
 INSERT INTO usuarios (username, password, rol) VALUES 
 -- Usuarios originales de prueba básica
 ('admin', '1234', 'Admin'),
-('conductor_rev', '1234', 'Revision_Conductores'),
-('manto_rev', '1234', 'Revision_Mantenimiento'),
+('chofer', '1234', 'Revision_Conductores'),
+('manto', '1234', 'Revision_Mantenimiento'),
 
 -- Nuevos Administradores
 ('JuanAdmin', 'Admin948372', 'Admin'),
@@ -110,5 +110,5 @@ INSERT INTO usuarios (username, password, rol) VALUES
 ('DiegoMantenimiento', 'Manto819263', 'Revision_Mantenimiento'),
 ('ElenaMantenimiento', 'Manto354682', 'Revision_Mantenimiento');
 
-select * from camion
+select * from usuarios
 
