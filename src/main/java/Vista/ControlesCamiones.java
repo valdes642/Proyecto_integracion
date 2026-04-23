@@ -58,37 +58,24 @@ public class ControlesCamiones extends javax.swing.JFrame {
     if (usuarioActual == null) return;
     String rol = usuarioActual.getRol();
 
-    switch (rol) {
-        case "Admin":
-            btnAgregar.setEnabled(true);
-            btnEliminar.setEnabled(true);
-            btnModificar.setEnabled(true);
-            habilitarEdicionCampos(true);
-            ComboBoxMantenimiento.setEnabled(true);
-            break;
-
-        case "Revision_Mantenimiento":
-            // Bloqueamos acciones de creación/borrado
-            btnAgregar.setEnabled(false);
-            btnEliminar.setEnabled(false);
-            
-            // EL TRUCO: Permitimos modificar pero bloqueamos los textos
-            btnModificar.setEnabled(true); 
-            habilitarEdicionCampos(false); // No pueden escribir en las cajas
-            
-            // Solo dejamos libre el combo de estado
-            ComboBoxMantenimiento.setEnabled(true); 
-            this.setTitle("Gestión Camiones - Solo Mantenimiento");
-            break; 
-
-        case "Revision_Conductores":
-            btnAgregar.setEnabled(false);
-            btnEliminar.setEnabled(false);
-            btnModificar.setEnabled(false);
-            habilitarEdicionCampos(false);
-            ComboBoxMantenimiento.setEnabled(false);
-            this.setTitle("Gestión Camiones - Consulta");
-            break;
+    // 1. Bloqueo total para los Choferes
+    if (rol.equalsIgnoreCase("Revision_Conductores")) {
+        btnAgregar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        btnGuardar.setEnabled(false); 
+        habilitarEdicionCampos(false); // Bloquea los textos
+        ComboBoxMantenimiento.setEnabled(false); // No pueden cambiar el estado
+        
+    // 2. Bloqueo para Mantención (Solo pueden usar "Modificar" y el "Estado")
+    } else if (rol.equalsIgnoreCase("Revision_Mantenimiento")) {
+        btnAgregar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnGuardar.setEnabled(false); 
+        
+        btnModificar.setEnabled(true); 
+        habilitarEdicionCampos(false); // Bloquea que escriban RUT, Marca, Modelo, KM...
+        ComboBoxMantenimiento.setEnabled(true); // ÚNICA OPCIÓN LIBRE: El estado del camión
     }
 }
 
@@ -500,11 +487,11 @@ public class ControlesCamiones extends javax.swing.JFrame {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
     String rol = usuarioActual.getRol();
     
-    // Solo Admin y Mantenimiento entran aquí
+    // Tiene que decir "Revision_Mantenimiento" igual que en la base de datos
     if (rol.equalsIgnoreCase("Admin") || rol.equalsIgnoreCase("Revision_Mantenimiento")) {
         
         String id = lblNumeracion.getText();
-        
+        // ... (dejas el resto de tu código igual hacia abajo)
         // Validación de seguridad: Que haya algo seleccionado
         if (id.equals("Numeracion") || id.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Seleccione un camión de la tabla primero.");

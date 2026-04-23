@@ -27,6 +27,7 @@ public class ControlesAsignacion extends javax.swing.JFrame {
         initComponents();
         prepararPantalla();
         actualizarTabla();
+        aplicarPermisos();
     }
 
     // Centraliza la configuración visual y de teclado
@@ -46,6 +47,17 @@ public class ControlesAsignacion extends javax.swing.JFrame {
         controlador.actualizarTabla(modelo);
     }
 
+    public void aplicarPermisos() {
+    if (usuarioActual == null) return;
+    String rol = usuarioActual.getRol();
+
+    // Si el rol NO es "Admin", bloqueamos todo automáticamente
+    if (!rol.equalsIgnoreCase("Admin")) {
+        btnAsignar.setEnabled(false);
+        ComboBoxCamion.setEnabled(false);
+        ComboBoxConductor.setEnabled(false);
+    }
+}
     
     /**
      * This method is called from within the constructor to initialize the form.
