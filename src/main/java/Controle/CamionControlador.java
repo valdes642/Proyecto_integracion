@@ -43,37 +43,40 @@ public class CamionControlador {
     /**
      * Procesa el registro de un nuevo camión
      */
-    // Cambia el método registrar para incluir tipoMantenimiento
     public boolean registrar(String patente, String marca, String modelo, String anio, String km, String tipoMantenimiento) {
         try {
-        Camion c = new Camion();
-        c.setPatente(patente);
-        c.setMarca(marca);
-        c.setModelo(modelo);
-        c.setAnio(Integer.parseInt(anio));
-        c.setKilometraje(Integer.parseInt(km));
-        c.setEstadoMantenimiento(tipoMantenimiento); // <--- IMPORTANTE
-        return dao.insertar(c);
-    } catch (NumberFormatException e) {
-        return false;
+            Camion c = new Camion();
+            c.setPatente(patente);
+            c.setMarca(marca);
+            c.setModelo(modelo);
+            c.setAnio(Integer.parseInt(anio));
+            c.setKilometraje(Integer.parseInt(km));
+            c.setEstadoMantenimiento(tipoMantenimiento); // <--- IMPORTANTE
+            return dao.insertar(c);
+        } catch (NumberFormatException e) {
+            System.err.println("Error de formato al registrar: " + e.getMessage());
+            return false;
+        }
     }
-}
 
-// Cambia el método editar para incluir tipoMantenimiento
+    /**
+     * Procesa la edición de un camión existente
+     */
     public boolean editar(String id, String patente, String marca, String modelo, String anio, String km, String tipoMantenimiento) {
-    try {
-        Camion c = new Camion();
-        c.setIdCamion(Integer.parseInt(id));
-        c.setPatente(patente);
-        c.setMarca(marca);
-        c.setModelo(modelo);
-        c.setAnio(Integer.parseInt(anio));
-        c.setKilometraje(Integer.parseInt(km));
-        c.setEstadoMantenimiento(tipoMantenimiento); // <--- IMPORTANTE
-        return dao.modificar(c);
-    } catch (NumberFormatException e) {
-        return false;
-    }
+        try {
+            Camion c = new Camion();
+            c.setIdCamion(Integer.parseInt(id));
+            c.setPatente(patente);
+            c.setMarca(marca);
+            c.setModelo(modelo);
+            c.setAnio(Integer.parseInt(anio));
+            c.setKilometraje(Integer.parseInt(km));
+            c.setEstadoMantenimiento(tipoMantenimiento); // <--- IMPORTANTE
+            return dao.modificar(c);
+        } catch (NumberFormatException e) {
+            System.err.println("Error de formato al editar: " + e.getMessage());
+            return false;
+        }
     }
     
     /**

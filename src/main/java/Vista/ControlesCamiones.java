@@ -58,26 +58,54 @@ public class ControlesCamiones extends javax.swing.JFrame {
     if (usuarioActual == null) return;
     String rol = usuarioActual.getRol();
 
-    // 1. Bloqueo total para los Choferes
+    // 1. Permisos para los Choferes (Conductores)
     if (rol.equalsIgnoreCase("Revision_Conductores")) {
         btnAgregar.setEnabled(false);
         btnEliminar.setEnabled(false);
-        btnModificar.setEnabled(false);
         btnGuardar.setEnabled(false); 
-        habilitarEdicionCampos(false); // Bloquea los textos
-        ComboBoxMantenimiento.setEnabled(false); // No pueden cambiar el estado
         
-    // 2. Bloqueo para Mantención (Solo pueden usar "Modificar" y el "Estado")
+        // HABILITADO para que puedan guardar el cambio de KM
+        btnModificar.setEnabled(true); 
+        
+        // Bloquea todos los textos por defecto
+
+    // 1. Permisos para los Choferes (Conductores)
+    if (rol.equalsIgnoreCase("Revision_Conductores")) {
+        btnAgregar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnGuardar.setEnabled(false); 
+        
+        // HABILITADO para que puedan guardar el cambio de KM
+        btnModificar.setEnabled(true); 
+        
+        // Bloquea todos los textos por defecto
+        habilitarEdicionCampos(false); 
+        
+        // HABILITA SÓLO EL KILOMETRAJE
+        lblKM.setEditable(true); 
+        
+        // Bloquea el estado de mantenimiento
+        ComboBoxMantenimiento.setEnabled(false); 
+        
+    // 2. Permisos para Mantención
     } else if (rol.equalsIgnoreCase("Revision_Mantenimiento")) {
         btnAgregar.setEnabled(false);
         btnEliminar.setEnabled(false);
         btnGuardar.setEnabled(false); 
         
+        // HABILITADO para que puedan guardar el cambio de Estado
         btnModificar.setEnabled(true); 
-        habilitarEdicionCampos(false); // Bloquea que escriban RUT, Marca, Modelo, KM...
-        ComboBoxMantenimiento.setEnabled(true); // ÚNICA OPCIÓN LIBRE: El estado del camión
+        
+        // Bloquea todos los textos (ellos no editan patente, marca, KM, etc.)
+        habilitarEdicionCampos(false); 
+        
+        // ÚNICA OPCIÓN LIBRE: El estado del camión (ComboBox)
+        ComboBoxMantenimiento.setEnabled(true); 
     }
+
 }
+    }
+    
 
     private void habilitarEdicionCampos(boolean estado) {
         lblNumeracion.setEditable(false); // El ID nunca debe editarse manualmente
@@ -445,78 +473,100 @@ public class ControlesCamiones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-    String rol = usuarioActual.getRol();
-    if (!rol.equalsIgnoreCase("Admin")) {
-        JOptionPane.showMessageDialog(this, "No tienes permisos para registrar nuevos camiones.");
-        return;
-    }
+    if (usuarioActual == null) return;
+        String rol = usuarioActual.getRol();
 
-    String patente = lblMatricula.getText().trim();
-    String marca = lblMarca.getText().trim();
-    String modelo = lblModelo.getText().trim();
-    String anio = "2024"; 
-    String kmTexto = lblKM.getText().trim();
-    String tipoMantenimiento = ComboBoxMantenimiento.getSelectedItem().toString();
-    
-    // --- NUEVO: Validación de kilometraje y alerta de 5000 KM ---
-    try {
-        int kilometraje = Integer.parseInt(kmTexto);
-        if (kilometraje >= 5000) {
-            JOptionPane.showMessageDialog(this, 
-                "ALERTA: El camión registra " + kilometraje + " KM. Se ha desencadenado el proceso de mantenimiento preventivo.", 
-                "Alerta de Mantenimiento", 
-                JOptionPane.WARNING_MESSAGE);
+        // Generalmente solo el Admin puede agregar vehículos nuevos
+        if (rol.equalsIgnoreCase("Admin")) {
+            String patente = lblMatricula.getText();
+            String marca = lblMarca.getText();
+            String modelo = lblModelo.getText();
+            String anio = "2024"; 
+            String km = lblKM.getText();
+            String tipoMantenimiento = ComboBoxMantenimiento.getSelectedItem().toString();
+
+            // --- LÓGICA DE ALERTA DE 5000 KILÓMETROS ---
+            try {
+                int kilometraje = Integer.parseInt(km);
+                if (kilometraje >= 5000 && kilometraje % 5000 < 500) {
+                    JOptionPane.showMessageDialog(this, 
+                        "Aviso: El camión se está registrando con " + kilometraje + " km. ¡Revisar mantenimiento!", 
+                        "Alerta de Kilometraje", 
+                        JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Error: El kilometraje debe ser un número válido.");
+                return;
+            }
+            // ------------------------------------------
+
+            if (controlador.registrar(patente, marca, modelo, anio, km, tipoMantenimiento)) {
+                JOptionPane.showMessageDialog(this, "Camión agregado correctamente.");
+                actualizarTabla(); // Refrescar la tabla
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al agregar el camión.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No tienes permisos para agregar camiones nuevos.");
         }
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, 
-            "Por favor, ingrese un número válido en el campo de kilometraje.", 
-            "Error de Formato", 
-            JOptionPane.ERROR_MESSAGE);
-        return; // Detiene la ejecución si el KM no es un número válido
-    }
-
-    // Llamada al controlador para guardar en la base de datos
-    if (controlador.registrar(patente, marca, modelo, anio, kmTexto, tipoMantenimiento)) {
-        JOptionPane.showMessageDialog(this, "¡Registro guardado exitosamente en la base de datos!");
-        actualizarTabla(); // Refresca la tabla visualmente
-    } else {
-        JOptionPane.showMessageDialog(this, "Error al guardar el registro en la base de datos.", "Error de Guardado", JOptionPane.ERROR_MESSAGE);
-    }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-    String rol = usuarioActual.getRol();
-    
-    // Tiene que decir "Revision_Mantenimiento" igual que en la base de datos
-    if (rol.equalsIgnoreCase("Admin") || rol.equalsIgnoreCase("Revision_Mantenimiento")) {
-        
-        String id = lblNumeracion.getText();
-        // ... (dejas el resto de tu código igual hacia abajo)
-        // Validación de seguridad: Que haya algo seleccionado
-        if (id.equals("Numeracion") || id.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Seleccione un camión de la tabla primero.");
+    if (usuarioActual == null) {
+            JOptionPane.showMessageDialog(this, "Error: No hay usuario autenticado.");
             return;
         }
 
-        // Capturamos los datos (si es Mantenimiento, enviará los mismos que ya estaban)
-        String patente = lblMatricula.getText();
-        String marca = lblMarca.getText();
-        String modelo = lblModelo.getText();
-        String anio = "2024"; // Mantengo tu valor por defecto
-        String km = lblKM.getText();
-        String tipoMantenimiento = ComboBoxMantenimiento.getSelectedItem().toString();
-
-        // Ejecutamos la actualización a través del controlador
-        if (controlador.editar(id, patente, marca, modelo, anio, km, tipoMantenimiento)) {
-            JOptionPane.showMessageDialog(this, "Estado actualizado con éxito.");
-            actualizarTabla();
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al procesar la actualización.");
-        }
+        String rol = usuarioActual.getRol();
         
-    } else {
-        JOptionPane.showMessageDialog(this, "No tienes permisos para realizar cambios.");
-    }
+        // Tienen permiso para usar este botón: Admin, Mantenimiento y Conductores
+        if (rol.equalsIgnoreCase("Admin") || 
+            rol.equalsIgnoreCase("Revision_Mantenimiento") || 
+            rol.equalsIgnoreCase("Revision_Conductores")) {
+            
+            String id = lblNumeracion.getText();
+            
+            // Validación de seguridad: Que haya un camión seleccionado
+            if (id.equals("Numeracion") || id.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Seleccione un camión de la tabla primero.");
+                return;
+            }
+
+            // Capturamos los datos actuales de los campos de texto y combobox
+            String patente = lblMatricula.getText();
+            String marca = lblMarca.getText();
+            String modelo = lblModelo.getText();
+            String anio = "2024"; // Se mantiene tu valor por defecto
+            String km = lblKM.getText();
+            String tipoMantenimiento = ComboBoxMantenimiento.getSelectedItem().toString();
+
+            // --- LÓGICA DE ALERTA DE 5000 KILÓMETROS ---
+            try {
+                int kilometraje = Integer.parseInt(km);
+                // Si el kilometraje es 5000 o más, y está en un rango múltiplo (ej: 5000, 10000)
+                if (kilometraje >= 5000 && kilometraje % 5000 < 500) {
+                    JOptionPane.showMessageDialog(this, 
+                        "Aviso: El camión registra " + kilometraje + " km. ¡Requiere revisión de mantenimiento!", 
+                        "Alerta de Kilometraje", 
+                        JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Error: El kilometraje debe ser un número válido.");
+                return; // Detiene la modificación si pusieron letras en vez de números
+            }
+            // ------------------------------------------
+
+            // Ejecutamos la actualización a través del controlador
+            if (controlador.editar(id, patente, marca, modelo, anio, km, tipoMantenimiento)) {
+                JOptionPane.showMessageDialog(this, "Camión actualizado con éxito.");
+                actualizarTabla();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al procesar la actualización.");
+            }
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "No tienes permisos para realizar cambios.");
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
